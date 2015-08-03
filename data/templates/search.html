@@ -14,7 +14,9 @@
     <button type="submit">{{ 'search-go'|message }}</button>
   </div>
 </form>
+{% if pages > 1 %}
 {% include 'inc/pagination.html' %}
+{% endif %}
 {% spaceless %}
 <div class="results">
   {% for quote in results %}
@@ -22,5 +24,7 @@
   {% endfor %}
 </div>
 {% endspaceless %}
+{% if pages > 1 %}
 {% include 'inc/pagination.html' %}
+{% endif %}
 {% endblock content %}
