@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ '404-header'|message }} - {{ parent() }}{% endblock title %}
+{% block content %}
+{% spaceless %}
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <h2>{{ '404-header'|message }}</h2>
+    <p>{{ '404-message'|message }}</p>
+  </div>
+</div>
+{% endspaceless %}
+{% endblock content %}

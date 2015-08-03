@@ -1,0 +1,19 @@
+<div class="pagination">
+  <ul>
+    {% if p > 0 %}
+    <li><a href="{{ urlFor(route) }}?{{ qsMerge( { 'p':(p - 1) } ) }}" id="prev">&laquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% if left > 0 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+    {% for i in left .. right %}
+    <li class="{{ i == p ? 'active' }}"><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':i } ) }}" id="prev">{{ i + 1 }}</a></li>
+    {% endfor %}
+    {% if right < pages - 1 %}<li class="disabled"><span>&hellip;</span></li>{% endif %}
+    {% if p + 1 < pages %}
+    <li><a href="{{ urlFor( route ) }}?{{ qsMerge( { 'p':(p + 1) } ) }}" >&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</div>

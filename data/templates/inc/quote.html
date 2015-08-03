@@ -1,0 +1,6 @@
+<div class="quote">
+  <p>{{ quote.message[0] }}</p>
+  <ul class="nav text-small">
+    <li><a href="{{ urlFor( 'quip', { 'id': quote.getId() } ) }}">{{ 'permalink'|message }}</a></li>
+  </ul>
+</div>

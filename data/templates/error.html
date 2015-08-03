@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'error-header'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<h2>{{ 'error-header'|message }}</h2>
+<p>{{ 'error-message'|message }}</p>
+{% if errorId|default(false) %}
+<p>{{ 'error-id'|message( errorId ) }}</p>
+{% endif %}
+{% endspaceless %}
+{% endblock content %}

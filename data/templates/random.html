@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'nav-random'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<div class="results">
+  {% for quote in results %}
+  {% include 'inc/quote.html' %}
+  {% endfor %}
+</div>
+{% endspaceless %}
+{% endblock content %}

@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bryan Davis"
+		]
+	},
+	"404-header": "404",
+	"404-message": "It is pitch black. You are likely to be eaten by a grue.",
+	"about-header": "About quips",
+	"about-section-credits": "Credits",
+	"about-section-license": "License",
+	"error-header": "Boom!",
+	"error-id": "Error ID: $1",
+	"error-message": "gj you broked it. maybe it will work if you repeatedly reload the page.",
+	"header-title": "Quips",
+	"nav-about": "about",
+	"nav-quip": "quip",
+	"nav-random": "random",
+	"nav-search": "search",
+	"permalink": "[link]",
+	"search-go": "go",
+	"search-q-empty": "search",
+	"search-query": "search quips",
+	"zzzzz": "zzzzz"
+}

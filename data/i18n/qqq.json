@@ -1,0 +1,26 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bryan Davis"
+		]
+	},
+	"404-header": "Page not found (HTTP 404 error) page heading",
+	"404-message": "Page not found (HTTP 404 error) page content",
+	"about-header": "About page heading",
+	"about-section-credits": "About page credits section header",
+	"about-section-license": "About page license section header",
+	"error-header": "Fatal error page heading",
+	"error-id": "Fatal error identifier. Parameters:\n* $1 - short alpha numeric string unique to this error occurrence",
+	"error-message": "Fatal error page content",
+	"header-title": "Used as the page title",
+	"nav-about": "Navigation link / title for about page",
+	"nav-quip": "Navigation link / title for a quip",
+	"nav-random": "Navigation link / title for random page",
+	"nav-search": "Navigation link / title for search page",
+	"permalink": "text for link to unique url for a quip",
+	"search-go": "Search action button text",
+	"search-q-empty": "Label for search text box",
+	"search-query": "Placeholder text for search text box",
+	"zzzzz": "unused message stuck at the bottom of the file.\n{{Identical|zzzzz}}"
+}
+

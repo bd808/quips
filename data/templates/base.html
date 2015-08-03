@@ -1,0 +1,38 @@
+{% set lang = i18nCtx.getCurrentLanguage %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+  <head>
+    <meta http-equiv="Content-language" content="{{ lang }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ siteUrl( 'favicon.ico' ) }}">
+    <link rel="icon" type="image/x-icon" href="{{ siteUrl( 'favicon.ico' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{ siteUrl( 'assets/main.css' ) }}">
+    {% block css %}{% endblock css %}
+    <title>{% block title %}{{ 'header-title'|message }}{% endblock title %}</title>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar">
+        <a class="navbar-brand" href="{{ urlFor('home') }}"><img id="logo" src="{{ siteUrl( 'assets/logo.png' ) }}">{{ 'header-title'|message }}</a>
+        <ul class="nav">
+          <li><a href="{{ urlFor('random') }}">{{ 'nav-random'|message }}</a></li>
+          <li><a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      {% block pre_content %}{% endblock pre_content %}
+      {% block content %}<p>{{ app.request.getPath }}: Your message here.</p>{% endblock content %}
+      {% block post_content %}{% endblock post_content %}
+    </div>
+
+    <footer class="footer">
+      <ul class="nav">
+        <li><a href="{{ urlFor('about') }}">{{ 'nav-about'|message }}</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>

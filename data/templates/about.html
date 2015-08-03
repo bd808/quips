@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'nav-about'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<h2>{{ 'about-header'|message }}</h2>
+
+<p>A bash.org inspired quips server.</p>
+
+<p>When Wikimedia used Bugzilla as its issue tracker, we also used the quips
+functionality to store funny quotes from irc, bug reports, code reviews and
+other sources. Since we have moved to Phabricator, this functionality has been
+missed. This app attempts to bring joy back to the masses by allowing access
+to the former quips dataset that is now stored in an Elasticsearch index.</p>
+
+<h3>{{ 'about-section-credits'|message }}</h3>
+Favicon/logo from <a href="http://glyphicons.com/">glyphicons.com</a> (<a href="https://creativecommons.org/licenses/by/3.0/">CC-BY 3.0</a>)
+
+<h3>{{ 'about-section-license'|message }}</h3>
+<ul>
+  <li>PHP code: <a href="//www.gnu.org/copyleft/gpl.html">GNU GPLv3+</a></li>
+  <li>Content: <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</a></li>
+</ul>
+{% endspaceless %}
+{% endblock content %}

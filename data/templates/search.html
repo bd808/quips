@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% set route = app.router.getCurrentRoute.getName %}
+
+{% block title %}{{ 'nav-search'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+<form id="search-form" method="get" action="{{ urlFor('search') }}">
+  <input type="hidden" name="p" value="0">
+  <div>
+    <label class="sr-only" for="q">{{ 'search-q-empty'|message }}</label>
+    <input type="text" id="q" name="q" placeholder="{{ 'search-query'|message }}" value="{{ q }}">
+  </div>
+  <div>
+    <button type="submit">{{ 'search-go'|message }}</button>
+  </div>
+</form>
+{% include 'inc/pagination.html' %}
+{% spaceless %}
+<div class="results">
+  {% for quote in results %}
+  {% include 'inc/quote.html' %}
+  {% endfor %}
+</div>
+{% endspaceless %}
+{% include 'inc/pagination.html' %}
+{% endblock content %}
