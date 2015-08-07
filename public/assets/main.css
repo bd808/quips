@@ -30,11 +30,31 @@ h3 { font-size:1.5em; }
 
 p {
   padding:.5em 0;
+  line-height:1.1em;
 }
 
 pre {
   font-family:monospace;
   white-space:pre;
+}
+
+kbd {
+  font-family:monospace;
+  font-weight:500;
+  background:#eee;
+  padding:0 .2em;
+}
+
+ol {
+  list-style-type:decimal;
+  padding:.5em 0;
+  padding-left:3em;
+}
+
+ol ul {
+  list-style-type:circle;
+  padding:.25em 0;
+  padding-left:1em;
 }
 
 form div {

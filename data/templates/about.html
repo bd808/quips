@@ -14,6 +14,21 @@ other sources. Since we have moved to Phabricator, this functionality has been
 missed. This app attempts to bring joy back to the masses by allowing access
 to the former quips dataset that is now stored in an Elasticsearch index.</p>
 
+<h3>{{ 'about-section-toollabs'|message }}</h3>
+This service is currently running in <a href="https://wikitech.wikimedia.org/wiki/Help:Tool_Labs">Wikimedia Tool Labs</a> as the <a href="https://tools.wmflabs.org/bash">bash</a> tool. It uses an <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> server hosted in the <a href="https://wikitech.wikimedia.org/wiki/Nova_Resource:Stashbot">stashbot</a> project of <a href="https://wikitech.wikimedia.org/wiki/Help:FAQ">Wikimedia Labs</a>. The stashbot project uses a <a href="https://www.elastic.co/products/logstash">Logstash</a> server and its <a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-irc.html">irc input plugin</a> to collect messages from various IRC channels. The Logstash instance uses some custom rules to look for messages in the IRC channels that start with <kbd>!bash</kbd> and adds them to a special Elasticsearch index. That same index was bootstrapped with a <a href="https://phabricator.wikimedia.org/P110">list of quips</a> that were salvaged from the former bugzilla.wikimedia.org server.
+
+<h3>{{ 'about-section-addquips'|message }}</h3>
+Quips are added via <a href="https://meta.wikimedia.org/wiki/IRC">IRC</a>.
+<ol>
+  <li>Look for a channel that <kbd>stashbot</kbd> is in. Try <kbd>/whois stashbot</kbd> to find one or check in <kbd>##stashbot</kbd>.</li>
+  <li>Type the quip proceded by <kbd>!bash</kbd> (eg <kbd>!bash &lt;bd808&gt; I wasted my whole weekend reading quips.</kbd>)
+    <ul>
+      <li>If you want a multiline quip, use tabs where the newlines should go. You may need to write the quip in a text editor and paste it into your IRC client to do this.</li>
+    </ul>
+  </li>
+  <li>The bot will not ack your submission, but it should show up in <a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a> within a minute or so.</li>
+</ol>
+
 <h3>{{ 'about-section-credits'|message }}</h3>
 Favicon/logo from <a href="http://glyphicons.com/">glyphicons.com</a> (<a href="https://creativecommons.org/licenses/by/3.0/">CC-BY 3.0</a>)
 
