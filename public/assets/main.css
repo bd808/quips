@@ -8,7 +8,7 @@ blockquote:before, blockquote:after, q:before, q:after { content:''; content:non
 table { border-collapse:collapse; border-spacing:0; }
 
 *, *:after, *:before { box-sizing: border-box; }
-
+html, body { height:100% }
 body {
   background:#fff;
   font:normal 100%/1.5 sans-serif;
@@ -22,14 +22,14 @@ h1, h2, h3, h4, h5, h6 {
   font-family:inherit;
   font-weight:500;
   line-height:1.1em;
-  margin:.5em 0;
+  padding:.5em 0;
 }
 h1 { font-size:3em; }
 h2 { font-size:2em; border-bottom:1px solid #ccc; }
 h3 { font-size:1.5em; }
 
 p {
-  margin:.5em 0;
+  padding:.5em 0;
 }
 
 pre {
@@ -39,13 +39,12 @@ pre {
 
 form div {
   display:inline-block;
-  margin-bottom:0;
   vertical-align:middle;
 }
 form label {
   display:inline-block;
   font-weight:700;
-  margin-bottom:5px;
+  padding-bottom:5px;
   max-width:100%;
 }
 form input {
@@ -72,7 +71,6 @@ form button {
   font-family:inherit;
   font-weight:400;
   line-height:1.42857;
-  margin-bottom:0;
   overflow:visible;
   padding:.1em .2em;
   text-align:center;
@@ -92,7 +90,7 @@ a:hover { color:#d33682; }
 }
 #logo {
   height:22px;
-  margin-right:.25em;
+  padding-right:.25em;
   vertical-align:middle;
   width:22px;
 }
@@ -115,7 +113,6 @@ a:hover { color:#d33682; }
 .nav {
   display:inline;
   list-style-type:none;
-  margin:0;
   padding:0;
 }
 .nav li {
@@ -130,16 +127,21 @@ a:hover { color:#d33682; }
   color:#fff;
   text-decoration:underline;
 }
+body > .container {
+  height:auto;
+  min-height:100%;
+}
 .container {
-  margin:0 2em;
+  height:100%;
+  padding:0 2em;
+  padding-bottom:3em;
 }
 .results {
   clear:both;
 }
 .quote {
   border-bottom:1px solid #eee;
-  margin:.5em 0;
-  padding:.25em 0;
+  padding:.75em 0;
 }
 .quote p {
   font-family:monospace;
@@ -154,8 +156,6 @@ a:hover { color:#d33682; }
 .pagination ul {
   display:inline;
   list-style-type:none;
-  margin:0;
-  padding:0;
 }
 .pagination li {
   display:inline;
@@ -164,9 +164,12 @@ a:hover { color:#d33682; }
 .footer {
   background:#ccc;
   border-top:1px solid #333;
-  margin-top:1em;
-  min-height:22px;
+  clear:both;
+  margin-top:-2em;
+  height:2em;
   padding:.25em;
+  padding-right:1em;
+  position:relative;
   text-align:right;
 }
 
