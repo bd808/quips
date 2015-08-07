@@ -159,6 +159,12 @@ body > .container {
 .results {
   clear:both;
 }
+.hits {
+  float:right;
+  font-size:smaller;
+  color:#666;
+  padding-bottom:.2em;
+}
 .quote {
   border-bottom:1px solid #eee;
   padding:.75em 0;
@@ -171,6 +177,7 @@ body > .container {
   float:left;
 }
 .pagination {
+  clear:right;
   text-align:right;
 }
 .pagination ul {
@@ -180,6 +187,10 @@ body > .container {
 .pagination li {
   display:inline;
   padding:0 .25em;
+}
+.pagination .active a {
+  text-decoration:underline;
+  color:inherit;
 }
 .footer {
   background:#ccc;

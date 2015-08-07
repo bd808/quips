@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% set route = app.router.getCurrentRoute.getName %}
+{% set all = results.getTotalHits() %}
+{% set first = (p * i) + 1 %}
+{% set last = min( first + i - 1, all ) %}
 
 {% block title %}{{ 'nav-search'|message }} - {{ parent() }}{% endblock title %}
 
@@ -14,6 +17,7 @@
     <button type="submit">{{ 'search-go'|message }}</button>
   </div>
 </form>
+<div class="hits">{% if pages > 1 %}{{ first }}-{{ last }} of {% endif %}{{ all }} results ({{ results.getTotalTime() }}ms)</div>
 {% if pages > 1 %}
 {% include 'inc/pagination.html' %}
 {% endif %}
