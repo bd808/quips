@@ -19,6 +19,9 @@
         <ul class="nav">
           <li><a href="{{ urlFor('random') }}">{{ 'nav-random'|message }}</a></li>
           <li><a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a></li>
+          {% if app.settings['can.edit'] %}
+          <li><a href="{{ urlFor('edit', { id: 'new' }) }}">{{ 'nav-new'|message }}</a></li>
+          {% endif %}
         </ul>
       </nav>
     </header>

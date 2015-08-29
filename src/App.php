@@ -47,6 +47,7 @@ class App extends AbstractApp {
 				"{$this->deployDir}/data/cache"
 			),
 			'es.url' => Config::getStr( 'ES_URL', 'http://127.0.0.1:9200/' ),
+			'can.edit' => Config::getBool( 'CAN_EDIT', false ),
 		) );
 
 		$slim->configureMode( 'production', function () use ( $slim ) {
@@ -161,35 +162,50 @@ class App extends AbstractApp {
 	 * @param \Slim\Slim $slim Application
 	 */
 	protected function configureRoutes( \Slim\Slim $slim ) {
-		$slim->group( '/',
-			function () use ( $slim ) {
-				App::redirect( $slim, '', 'random', 'home' );
-				App::redirect( $slim, 'index', 'random' );
+		$slim->group( '/', function () use ( $slim ) {
+			App::redirect( $slim, '', 'random', 'home' );
+			App::redirect( $slim, 'index', 'random' );
 
-				$slim->get( 'random', function () use ( $slim ) {
-					$page = new Pages\Random( $slim );
-					$page->setI18nContext( $slim->i18nContext );
-					$page->setQuips( $slim->quips );
-					$page();
-				} )->name( 'random' );
+			$slim->get( 'random', function () use ( $slim ) {
+				$page = new Pages\Random( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page();
+			} )->name( 'random' );
 
-				$slim->get( 'quip/:id', function ( $id ) use ( $slim ) {
-					$page = new Pages\Quip( $slim );
-					$page->setI18nContext( $slim->i18nContext );
-					$page->setQuips( $slim->quips );
-					$page( $id );
-				} )->name( 'quip' );
+			$slim->get( 'search', function () use ( $slim ) {
+				$page = new Pages\Search( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page();
+			} )->name( 'search' );
 
-				$slim->get( 'search', function () use ( $slim ) {
-					$page = new Pages\Search( $slim );
-					$page->setI18nContext( $slim->i18nContext );
-					$page->setQuips( $slim->quips );
-					$page();
-				} )->name( 'search' );
+			App::template( $slim, 'about' );
+		} ); //end group '/'
 
-				App::template( $slim, 'about' );
-			}
-		); //end group '/'
+		$slim->group( '/quip/', function () use ( $slim ) {
+			$slim->get( ':id', function ( $id ) use ( $slim ) {
+				$page = new Pages\Quip( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page( $id );
+			} )->name( 'quip' );
+
+			$slim->get( ':id/edit', function ( $id ) use ( $slim ) {
+				$page = new Pages\Edit( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page( $id );
+			} )->name( 'edit' );
+
+			$slim->post( ':id/post', function ( $id ) use ( $slim ) {
+				$page = new Pages\Edit( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page( $id );
+			} )->name( 'edit_post' );
+
+		} );
 
 		$slim->notFound( function () use ( $slim ) {
 			$slim->render( '404.html' );

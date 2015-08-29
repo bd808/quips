@@ -202,6 +202,11 @@ body > .container {
   text-decoration:underline;
   color:inherit;
 }
+#edit-form textarea {
+  font-family:monospace;
+  height:8em;
+  width:90%;
+}
 .footer {
   background:#ccc;
   border-top:1px solid #333;

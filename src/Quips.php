@@ -20,10 +20,12 @@
 namespace Bd808\Bash;
 
 use Elastica\Client;
+use Elastica\Document;
 use Elastica\Query;
 use Elastica\Query\FunctionScore;
 use Elastica\Query\Ids;
 use Elastica\Query\SimpleQueryString;
+use Elastica\Result;
 use Elastica\ResultSet;
 use Elastica\Search;
 use Psr\Log\LoggerInterface;
@@ -64,6 +66,22 @@ class Quips {
 	}
 
 	/**
+	 * Fields to fetch from the index.
+	 */
+	protected function defaultFields() {
+		return array(
+			'id',
+			'@timestamp',
+			'nick',
+			'message',
+			'up_votes',
+			'down_votes',
+			'score',
+			'tags',
+		);
+	}
+
+	/**
 	 * Get a random quip
 	 *
 	 * @return ResultSet
@@ -74,7 +92,7 @@ class Quips {
 		$query = new Query( $fs );
 		$query->setFrom( 0 )
 			->setSize( 1 )
-			->setFields( array( 'message' ) );
+			->setFields( $this->defaultFields() );
 		return $this->doSearch( $query );
 	}
 
@@ -90,7 +108,7 @@ class Quips {
 		$query = new Query( $ids );
 		$query->setFrom( 0 )
 			->setSize( 1 )
-			->setFields( array( 'message' ) );
+			->setFields( $this->defaultFields() );
 		return $this->doSearch( $query );
 	}
 
@@ -118,8 +136,75 @@ class Quips {
 		}
 		$query->setFrom( $params['page'] * $params['items'] )
 			->setSize( $params['items'] )
-			->setFields( array( 'message' ) )
+			->setFields( $this->defaultFields() )
 			->setSort( array( '@timestamp' => array( 'order' => 'desc' ) ) );
 		return $this->doSearch( $query );
+	}
+
+	/**
+	 * Save a quip
+	 *
+	 * @param string $id
+	 * @param array $quip
+	 * @return string|bool Quip id or false if failure
+	 */
+	public function save( $id, array $quip ) {
+		$quip = array_merge( array(
+			'@timestamp' => date( 'c' ),
+			'nick' => 'anonymous',
+			'message' => '(this space left intentionally blank)',
+			'up_votes' => 0,
+			'down_votes' => 0,
+			'score' => 0,
+			'tags' => array(),
+		), $quip );
+
+		$quip['score'] = static::computeScore(
+			$quip['up_votes'], $quip['down_votes']
+		);
+
+		if ( $id === 'new' ) {
+			$id = '';
+		}
+
+		$doc = new Document( $id, $quip );
+		$doc->setAutoPopulate( true );
+		$res = $this->client->getIndex( 'bash' )
+			->getType( 'bash' )
+			->addDocument( $doc );
+		$this->client->getIndex( 'bash' )->refresh();
+
+		if ( $res->isOk() ) {
+			$data = $res->getData();
+			return $data['_id'];
+
+		} else {
+			$this->logger->error( 'Failure saving {id}: {error}', array(
+				'id' => $id,
+				'error' => $res->getError(),
+			) );
+			return false;
+		}
+	}
+
+	/**
+	 * Compute a score based on the number of up and down votes.
+	 *
+	 * @param int $up Up votes
+	 * @param int $down Down votes
+	 * @param float $z Quantile of standard normal distibution
+	 * @return int
+	 * @see http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+	 */
+	public static function computeScore( $up, $down, $z = 1.96 ) {
+		$n = $up + $down;
+		if ( $n === 0 ) {
+			return 0;
+		}
+		$p̂ = $up / $n;
+		$z² = $z * $z;
+		return ( $p̂ + ( $z² / ( 2 * $n ) ) -
+			$z * sqrt( ( $p̂ * ( 1 - $p̂ ) + $z² / ( 4 * $n ) ) / $n ) ) /
+			( 1 + $z² / $n );
 	}
 }

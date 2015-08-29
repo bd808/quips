@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'nav-edit'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<form id="edit-form" method="post" action="{{ urlFor('edit_post', { id: id } ) }}">
+  <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token|e('html_attr') }}" />
+  <input type="hidden" name="@timestamp" value="{{ form.get( '@timestamp' )|e('html_attr') }}" />
+  <input type="hidden" name="nick" value="{{ form.get( 'nick' )|e('html_attr') }}" />
+  <input type="hidden" name="up_votes" value="{{ form.get( 'up_votes' )|e('html_attr') }}" />
+  <input type="hidden" name="down_votes" value="{{ form.get( 'down_votes' )|e('html_attr') }}" />
+  <input type="hidden" name="score" value="{{ form.get( 'score' )|e('html_attr') }}" />
+  {% for tag in form.get( 'tags' ) %}
+  <input type="hidden" name="tags[]" value="{{ tag|e('html_attr') }}" />
+  {% endfor %}
+  <div>
+    <label class="sr-only" for="message">{{ 'edit-message-empty'|message }}</label>
+    <textarea id="message" name="message" placeholder="{{ 'edit-message-empty'|message }}">{{ form.get( 'message' ) }}</textarea>
+  </div>
+  <div>
+    <button type="submit">{{ 'edit-submit'|message }}</button>
+  </div>
+</form>
+{% endspaceless %}
+{% endblock content %}
