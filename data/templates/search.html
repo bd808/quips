@@ -7,7 +7,7 @@
 {% block title %}{{ 'nav-search'|message }} - {{ parent() }}{% endblock title %}
 
 {% block content %}
-<form id="search-form" method="get" action="{{ urlFor('search') }}">
+<form id="search-form" class="inline" method="get" action="{{ urlFor('search') }}">
   <input type="hidden" name="p" value="0">
   <div>
     <label class="sr-only" for="q">{{ 'search-q-empty'|message }}</label>

@@ -1,5 +1,5 @@
 /* http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126 License:none (public domain) */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin:0; padding:0; border:0; font-size:100%; font:inherit; vertical-align:baseline; }
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, input, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, textarea, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin:0; padding:0; border:0; font-size:100%; font:inherit; vertical-align:baseline; }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block; }
 body { line-height:1; }
 ol, ul { list-style:none; }
@@ -57,23 +57,18 @@ ol ul {
   padding-left:1em;
 }
 
-form div {
-  display:inline-block;
-  vertical-align:middle;
-}
+
 form label {
-  display:inline-block;
   font-weight:700;
-  padding-bottom:5px;
   max-width:100%;
 }
-form input {
+form input,
+form textarea {
   background-color:#fff;
   background-image:none;
   border:1px solid #ccc;
   box-shadow:0 1px 1px rgba(0,0,0,0.075) inset;
   color:#555;
-  display:inline-block;
   font-family:inherit;
   line-height:1.42857;
   padding:.1em .2em;
@@ -87,7 +82,6 @@ form button {
   border:1px solid #ccc;
   color:#333;
   cursor:pointer;
-  display:inline-block;
   font-family:inherit;
   font-weight:400;
   line-height:1.42857;
@@ -96,6 +90,22 @@ form button {
   text-align:center;
   vertical-align:middle;
   white-space:nowrap;
+}
+
+form.inline div {
+  display:inline-block;
+  vertical-align:middle;
+}
+form.inline label {
+  display:inline-block;
+  padding-bottom:5px;
+}
+form.inline input,
+form.inline textarea {
+  display:inline-block;
+}
+form.inline button {
+  display:inline-block;
 }
 
 a { color:#268bd2; }
