@@ -168,7 +168,6 @@ class Quips {
 		}
 
 		$doc = new Document( $id, $quip );
-		$doc->setAutoPopulate( true );
 		$res = $this->client->getIndex( 'bash' )
 			->getType( 'bash' )
 			->addDocument( $doc );
@@ -185,6 +184,19 @@ class Quips {
 			) );
 			return false;
 		}
+	}
+
+	/**
+	 * Delete a quip
+	 *
+	 * @param string $id
+	 * @return bool
+	 */
+	public function delete( $id ) {
+		$res = $this->client->getIndex( 'bash' )
+			->getType( 'bash' )
+			->deleteById( $id );
+		return $res->isOk();
 	}
 
 	/**

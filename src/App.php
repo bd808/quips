@@ -205,6 +205,13 @@ class App extends AbstractApp {
 				$page( $id );
 			} )->name( 'edit_post' );
 
+			$slim->post( ':id/delete', function ( $id ) use ( $slim ) {
+				$page = new Pages\Delete( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page( $id );
+			} )->name( 'delete_post' );
+
 		} );
 
 		$slim->notFound( function () use ( $slim ) {

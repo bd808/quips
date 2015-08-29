@@ -22,5 +22,14 @@
     <button type="submit">{{ 'edit-submit'|message }}</button>
   </div>
 </form>
+{% if id != 'new' %}
+<form id="delete-form" method="post" class="inline" action="{{ urlFor( 'delete_post', { id:
+  id } ) }}">
+  <input type="hidden" name="{{ csrf_param }}" value="{{ csrf_token|e('html_attr') }}" />
+  <div>
+    <button type="submit">{{ 'delete-submit'|message }}</button>
+  </div>
+</form>
+{% endif %}
 {% endspaceless %}
 {% endblock content %}

@@ -207,6 +207,9 @@ body > .container {
   height:8em;
   width:90%;
 }
+#delete-form {
+  margin:-1.6em 0 0 5em;
+}
 .footer {
   background:#ccc;
   border-top:1px solid #333;
