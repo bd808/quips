@@ -204,6 +204,41 @@ body > .container {
   text-align:right;
 }
 
+input[type=checkbox].close {
+  display:none;
+}
+input[type=checkbox].close:checked + div {
+  display:none;
+}
+.alert {
+  border:1px solid transparent;
+  border-radius:.25em;
+  margin-bottom:1em;
+  padding:0.75em;
+}
+.alert label {
+  cursor:pointer;
+  float:right;
+  font-size:1.25em;
+  font-weight:700;
+  line-height:1;
+  opacity:0.2;
+  text-shadow:0 1px 0 #fff;
+}
+.alert label:hover {
+  opacity:1;
+}
+.alert-error {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+.alert-info {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
+
 .text-small {
   font-size:smaller;
 }

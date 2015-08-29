@@ -24,7 +24,24 @@
     </header>
 
     <div class="container">
-      {% block pre_content %}{% endblock pre_content %}
+      {% block pre_content %}
+      {% if flash|default(false) %}
+      {% if flash.error|default(false) %}
+      <input class="close" type="checkbox" id="alert-error-close">
+      <div class="alert alert-error">
+        <label for="alert-error-close">&times</label>
+        {{ flash.error }}
+      </div>
+      {% endif %}
+      {% if flash.info|default(false) %}
+      <input class="close" type="checkbox" id="alert-info-close">
+      <div class="alert alert-info">
+        <label for="alert-info-close">&times</label>
+        {{ flash.info }}
+      </div>
+      {% endif %}
+      {% endif %}
+      {% endblock pre_content %}
       {% block content %}<p>{{ app.request.getPath }}: Your message here.</p>{% endblock content %}
       {% block post_content %}{% endblock post_content %}
     </div>
