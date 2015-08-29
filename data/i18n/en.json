@@ -11,6 +11,8 @@
 	"about-section-credits": "Credits",
 	"about-section-license": "License",
 	"about-section-toollabs": "Wikimedia Tool Labs",
+	"csrf-heading": "Invalid request",
+	"csrf-message": "The request that was submitted was missing the request forgery protection token. Please return to the form, reload the page and try again.",
 	"error-header": "Boom!",
 	"error-id": "Error ID: $1",
 	"error-message": "gj you broked it. maybe it will work if you repeatedly reload the page.",

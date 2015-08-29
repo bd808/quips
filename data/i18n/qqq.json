@@ -11,6 +11,8 @@
 	"about-section-credits": "About page credits section header",
 	"about-section-license": "About page license section header",
 	"about-section-toollabs": "About page tool labs section header",
+	"csrf-heading": "Header for cross site request forgery (CSRF) error page",
+	"csrf-message": "Cross site request forgery (CSRF) error page body",
 	"error-header": "Fatal error page heading",
 	"error-id": "Fatal error identifier. Parameters:\n* $1 - short alpha numeric string unique to this error occurrence",
 	"error-message": "Fatal error page content",

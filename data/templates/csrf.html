@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'csrf-heading'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<h2>{{ 'csrf-heading'|message }}</h2>
+<p>{{ 'csrf-message'|message }}</p>
+{% endspaceless %}
+{% endblock content %}
