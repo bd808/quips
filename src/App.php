@@ -112,12 +112,12 @@ class App extends AbstractApp {
 		} );
 
 		$container->singleton( 'quips', function ( $c ) {
-			return new Quips(
-				new \Elastica\Client( array(
-					'url' => $c->settings['es.url'],
-				) ),
-				$c->log
-			);
+			$client = new \Elastica\Client( array(
+				'url' => $c->settings['es.url'],
+				'log' => true,
+			) );
+			$client->setLogger( $c->log );
+			return new Quips( $client, $c->log );
 		} );
 
 		// TODO: figure out where to send logs
