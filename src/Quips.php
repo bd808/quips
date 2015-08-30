@@ -160,7 +160,7 @@ class Quips {
 		), $quip );
 
 		$quip['score'] = static::computeScore(
-			$quip['up_votes'], $quip['down_votes']
+			(int)$quip['up_votes'], (int)$quip['down_votes']
 		);
 
 		if ( $id === 'new' ) {
@@ -197,6 +197,30 @@ class Quips {
 			->getType( 'bash' )
 			->deleteById( $id );
 		return $res->isOk();
+	}
+
+	/**
+	 * Vote on a quip
+	 *
+	 * @param string $id
+	 * @param string $vote 'up' or 'down'
+	 * @return bool
+	 */
+	public function vote( $id, $vote ) {
+		$quip = array_merge( array(
+			'up_votes' => 0,
+			'down_votes' => 0,
+		), $this->getQuip( $id )[0]->getData() );
+
+		if ( $vote === 'up' ) {
+			$quip['up_votes'] = 1 + (int)$quip['up_votes'];
+		} elseif ( $vote === 'down' ) {
+			$quip['down_votes'] = 1 + (int)$quip['down_votes'];
+		} else {
+			return false;
+		}
+		$res = $this->save( $id, $quip );
+		return $res !== false;
 	}
 
 	/**

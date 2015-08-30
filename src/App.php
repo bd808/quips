@@ -48,6 +48,7 @@ class App extends AbstractApp {
 			),
 			'es.url' => Config::getStr( 'ES_URL', 'http://127.0.0.1:9200/' ),
 			'can.edit' => Config::getBool( 'CAN_EDIT', false ),
+			'can.vote' => Config::getBool( 'CAN_VOTE', false ),
 		) );
 
 		$slim->configureMode( 'production', function () use ( $slim ) {
@@ -212,6 +213,12 @@ class App extends AbstractApp {
 				$page( $id );
 			} )->name( 'delete_post' );
 
+			$slim->post( ':id/vote', function ( $id ) use ( $slim ) {
+				$page = new Pages\Vote( $slim );
+				$page->setI18nContext( $slim->i18nContext );
+				$page->setQuips( $slim->quips );
+				$page( $id );
+			} )->name( 'vote_post' );
 		} );
 
 		$slim->notFound( function () use ( $slim ) {

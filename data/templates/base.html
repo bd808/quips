@@ -54,5 +54,7 @@
         <li><a href="{{ urlFor('about') }}">{{ 'nav-about'|message }}</a></li>
       </ul>
     </footer>
+    <script src="{{ siteUrl( 'assets/main.js' ) }}"></script>
+    {% block javascript %}{% endblock javascript %}
   </body>
 </html>

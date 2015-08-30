@@ -183,6 +183,16 @@ body > .container {
   font-family:monospace;
   white-space:pre-wrap;
 }
+.ballot, .vote {
+  display:inline-block;
+}
+.vote {
+  cursor:pointer;
+}
+.voted {
+  cursor:default;
+  color:#cb4b16;
+}
 #search-form {
   float:left;
 }

@@ -1,9 +1,18 @@
+{% set id = quote.getId() %}
 <div class="quote">
   <p>{{ quote.message[0] }}</p>
   <ul class="nav text-small">
-    <li><a href="{{ urlFor( 'quip', { 'id': quote.getId() } ) }}">{{ 'permalink'|message }}</a></li>
+    {% if app.settings['can.vote'] %}
+    <li>
+      <div class="ballot">
+        <div class="vote" data-url="{{ urlFor( 'vote_post', { id: id} ) }}" data-vote="up" data-token="{{ csrf_token|e('html_attr') }}">⬆</div>
+        <div class="vote" data-url="{{ urlFor( 'vote_post', { id: id} ) }}" data-vote="down" data-token="{{ csrf_token|e('html_attr') }}">⬇</div>
+      </div>
+    </li>
+    {% endif %}
+    <li><a href="{{ urlFor( 'quip', { id: id } ) }}">{{ 'permalink'|message }}</a></li>
     {% if app.settings['can.edit'] %}
-    <li><a href="{{ urlFor( 'edit', { 'id': quote.getId() } ) }}">{{ 'edit'|message }}</a></li>
+    <li><a href="{{ urlFor( 'edit', { id: id } ) }}">{{ 'edit'|message }}</a></li>
     {% endif %}
   </ul>
 </div>
