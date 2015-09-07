@@ -19,10 +19,21 @@
         <ul class="nav">
           <li><a href="{{ urlFor('random') }}">{{ 'nav-random'|message }}</a></li>
           <li><a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a></li>
-          {% if app.settings['can.edit'] %}
+          {% if user|default(false) and app.settings['can.edit'] %}
           <li><a href="{{ urlFor('edit', { id: 'new' }) }}">{{ 'nav-new'|message }}</a></li>
           {% endif %}
         </ul>
+        {% if app.settings['oauth.enable'] %}
+        <div class="navbar-right">
+          <ul class="nav">
+            {% if user|default(false) %}
+            <li><a href="{{ urlFor('logout') }}">{{ 'nav-logout'|message }}</a></li>
+            {% else %}
+            <li><a href="{{ urlFor('login') }}">{{ 'nav-login'|message }}</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
       </nav>
     </header>
 

@@ -157,6 +157,9 @@ a:hover { color:#d33682; }
   color:#fff;
   text-decoration:underline;
 }
+.navbar-right {
+  float:right;
+}
 body > .container {
   height:auto;
   min-height:100%;

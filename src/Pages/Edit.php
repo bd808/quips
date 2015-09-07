@@ -69,7 +69,9 @@ class Edit extends Page {
 
 	protected function handleGet( $id ) {
 		$defaults = array();
-		if ( $id !== 'new' ) {
+		if ( $id === 'new' ) {
+			$defaults['nick'] = $this->authManager->getUserData()->getName();
+		} else {
 			$defaults = array_map(
 				function ( $v ) {
 					if ( is_array( $v ) && count( $v ) === 1 ) {
