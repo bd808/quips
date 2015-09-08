@@ -51,6 +51,8 @@ class App extends AbstractApp {
 				"{$this->deployDir}/data/cache"
 			),
 			'es.url' => Config::getStr( 'ES_URL', 'http://127.0.0.1:9200/' ),
+			'es.user' => Config::getStr( 'ES_USER', '' ),
+			'es.password' => Config::getStr( 'ES_PASSWORD', '' ),
 			'can.edit' => Config::getBool( 'CAN_EDIT', false ),
 			'can.vote' => Config::getBool( 'CAN_VOTE', false ),
 			'oauth.enable' => Config::getBool( 'USE_OAUTH', false ),
@@ -125,10 +127,20 @@ class App extends AbstractApp {
 		} );
 
 		$container->singleton( 'quips', function ( $c ) {
-			$client = new \Elastica\Client( array(
+			$settings = array(
 				'url' => $c->settings['es.url'],
 				'log' => true,
-			) );
+			);
+			if ( $c->settings['es.user'] !== '' ) {
+				$creds = base64_encode(
+					$c->settings['es.user'] . ':' .
+					$c->settings['es.password']
+				);
+				$settings['headers'] = array(
+					'Authorization' => "Basic {$creds}",
+				);
+			}
+			$client = new \Elastica\Client( $settings );
 			$client->setLogger( $c->log );
 			return new Quips( $client, $c->log );
 		} );
