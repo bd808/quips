@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% set route = app.router.getCurrentRoute.getName %}
+{% set all = results.getTotalHits() %}
+{% set first = (p * i) + 1 %}
+{% set last = min( first + i - 1, all ) %}
+
+{% block title %}{{ 'nav-top'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+<div class="hits">{% if pages > 1 %}{{ first }}-{{ last }} of {% endif %}{{ all }} results ({{ results.getTotalTime() }}ms)</div>
+{% if pages > 1 %}
+{% include 'inc/pagination.html' %}
+{% endif %}
+{% spaceless %}
+<div class="results">
+  {% for quote in results %}
+  {% include 'inc/quote.html' %}
+  {% endfor %}
+</div>
+{% endspaceless %}
+{% if pages > 1 %}
+{% include 'inc/pagination.html' %}
+{% endif %}
+{% endblock content %}

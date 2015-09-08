@@ -137,7 +137,40 @@ class Quips {
 		$query->setFrom( $params['page'] * $params['items'] )
 			->setSize( $params['items'] )
 			->setFields( $this->defaultFields() )
-			->setSort( array( '@timestamp' => array( 'order' => 'desc' ) ) );
+			->setSort( array(
+				'_score',
+				array( '@timestamp' => array( 'order' => 'desc' ) ),
+			) );
+		return $this->doSearch( $query );
+	}
+
+	/**
+	 * Get quips ordered by votes
+	 *
+	 * @param array $params Search parameters:
+	 *   - items: Number of results to return per page
+	 *   - page: Page of results to return (0-index)
+	 * @return ResultSet
+	 */
+	public function top( array $params = array() ) {
+		$params = array_merge( array(
+			'items' => 20,
+			'page' => 0,
+		), $params );
+
+		$query = new Query();
+		$query->setFrom( $params['page'] * $params['items'] )
+			->setSize( $params['items'] )
+			->setFields( $this->defaultFields() )
+			->setSort( array(
+				array( 'score' => array(
+					'order' => 'desc',
+					'missing' => '_last',
+				) ),
+				array( 'up_votes' => array( 'order' => 'desc' ) ),
+				array( 'down_votes' => array( 'order' => 'asc' ) ),
+				array( '@timestamp' => array( 'order' => 'desc' ) ),
+			) );
 		return $this->doSearch( $query );
 	}
 

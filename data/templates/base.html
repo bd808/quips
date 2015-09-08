@@ -18,6 +18,7 @@
         <a class="navbar-brand" href="{{ urlFor('home') }}"><img id="logo" src="{{ siteUrl( 'assets/logo.png' ) }}">{{ 'header-title'|message }}</a>
         <ul class="nav">
           <li><a href="{{ urlFor('random') }}">{{ 'nav-random'|message }}</a></li>
+          <li><a href="{{ urlFor('top') }}">{{ 'nav-top'|message }}</a></li>
           <li><a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a></li>
           {% if user|default(false) and app.settings['can.edit'] %}
           <li><a href="{{ urlFor('edit', { id: 'new' }) }}">{{ 'nav-new'|message }}</a></li>

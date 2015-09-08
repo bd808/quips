@@ -1,4 +1,5 @@
 {% set id = quote.getId() %}
+{% set score = quote.score[0]|default(0) * 100 %}
 <div class="quote">
   <p>{{ quote.message[0] }}</p>
   <ul class="nav text-small">
@@ -6,6 +7,7 @@
     <li>
       <div class="ballot">
         <div class="vote" data-url="{{ urlFor( 'vote_post', { id: id} ) }}" data-vote="up" data-token="{{ csrf_token|e('html_attr') }}">⬆</div>
+        {{ score|round(3) }}
         <div class="vote" data-url="{{ urlFor( 'vote_post', { id: id} ) }}" data-vote="down" data-token="{{ csrf_token|e('html_attr') }}">⬇</div>
       </div>
     </li>

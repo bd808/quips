@@ -31,6 +31,7 @@
 	"nav-quip": "Navigation link / title for a quip",
 	"nav-random": "Navigation link / title for random page",
 	"nav-search": "Navigation link / title for search page",
+	"nav-top": "Navigation link / title for top results page",
 	"oauth-finish-fail": "Error message shown when OAuth fails",
 	"oauth-finish-nosession": "Error message shown when OAuth fails due to missing session data",
 	"oauth-finish-success": "Success message show after login",

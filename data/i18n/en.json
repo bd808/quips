@@ -31,6 +31,7 @@
 	"nav-quip": "quip",
 	"nav-random": "random",
 	"nav-search": "search",
+	"nav-top": "top",
 	"oauth-finish-fail": "OAuth login failed. Try again.",
 	"oauth-finish-nosession": "OAuth session data not found. Try again.",
 	"oauth-finish-success": "Login success",

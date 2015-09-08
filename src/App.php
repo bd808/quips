@@ -272,6 +272,13 @@ class App extends AbstractApp {
 					$page();
 				} )->name( 'search' );
 
+				$slim->get( 'top', function () use ( $slim ) {
+					$page = new Pages\Top( $slim );
+					$page->setI18nContext( $slim->i18nContext );
+					$page->setQuips( $slim->quips );
+					$page();
+				} )->name( 'top' );
+
 				App::template( $slim, 'login' );
 
 				$slim->get( 'logout',
