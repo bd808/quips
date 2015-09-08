@@ -171,16 +171,17 @@ class Quips {
 		$res = $this->client->getIndex( 'bash' )
 			->getType( 'bash' )
 			->addDocument( $doc );
-		$this->client->getIndex( 'bash' )->refresh();
 
 		if ( $res->isOk() ) {
 			$data = $res->getData();
+			$this->client->getIndex( 'bash' )->refresh();
 			return $data['_id'];
 
 		} else {
 			$this->logger->error( 'Failure saving {id}: {error}', array(
 				'id' => $id,
 				'error' => $res->getError(),
+				'transferInfo' => $res->getTransferInfo(),
 			) );
 			return false;
 		}
