@@ -71,6 +71,7 @@ class Edit extends Page {
 		$defaults = array();
 		if ( $id === 'new' ) {
 			$defaults['nick'] = $this->authManager->getUserData()->getName();
+			$defaults['tags'] = array( 'web' );
 		} else {
 			$defaults = array_map(
 				function ( $v ) {
