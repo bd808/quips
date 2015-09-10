@@ -18,13 +18,46 @@
         <a class="navbar-brand" href="{{ urlFor('home') }}"><img id="logo" src="{{ siteUrl( 'assets/logo.png' ) }}">{{ 'header-title'|message }}</a>
         <ul class="nav">
           <li><a href="{{ urlFor('random') }}">{{ 'nav-random'|message }}</a></li>
+          <li><a href="{{ urlFor('top') }}">{{ 'nav-top'|message }}</a></li>
           <li><a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a></li>
+          {% if user|default(false) and app.settings['can.edit'] %}
+          <li><a href="{{ urlFor('edit', { id: 'new' }) }}">{{ 'nav-new'|message }}</a></li>
+          {% endif %}
         </ul>
+        <div class="navbar-right">
+          <ul class="nav">
+            <li><a href="{{ urlFor('help') }}">{{ 'nav-help'|message }}</a></li>
+            {% if app.settings['oauth.enable'] %}
+            {% if user|default(false) %}
+            <li><a href="{{ urlFor('logout') }}">{{ 'nav-logout'|message }}</a></li>
+            {% else %}
+            <li><a href="{{ urlFor('login') }}">{{ 'nav-login'|message }}</a></li>
+            {% endif %}
+            {% endif %}
+          </ul>
+        </div>
       </nav>
     </header>
 
     <div class="container">
-      {% block pre_content %}{% endblock pre_content %}
+      {% block pre_content %}
+      {% if flash|default(false) %}
+      {% if flash.error|default(false) %}
+      <input class="close" type="checkbox" id="alert-error-close">
+      <div class="alert alert-error">
+        <label for="alert-error-close">&times</label>
+        {{ flash.error }}
+      </div>
+      {% endif %}
+      {% if flash.info|default(false) %}
+      <input class="close" type="checkbox" id="alert-info-close">
+      <div class="alert alert-info">
+        <label for="alert-info-close">&times</label>
+        {{ flash.info }}
+      </div>
+      {% endif %}
+      {% endif %}
+      {% endblock pre_content %}
       {% block content %}<p>{{ app.request.getPath }}: Your message here.</p>{% endblock content %}
       {% block post_content %}{% endblock post_content %}
     </div>
@@ -34,5 +67,7 @@
         <li><a href="{{ urlFor('about') }}">{{ 'nav-about'|message }}</a></li>
       </ul>
     </footer>
+    <script src="{{ siteUrl( 'assets/main.js' ) }}"></script>
+    {% block javascript %}{% endblock javascript %}
   </body>
 </html>

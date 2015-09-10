@@ -19,10 +19,14 @@
 
 namespace Bd808\Bash;
 
+use Bd808\Bash\Auth\OAuthUserManager;
+
 use Wikimedia\SimpleI18n\I18nContext;
 use Wikimedia\SimpleI18n\JsonCache;
 use Wikimedia\Slimapp\AbstractApp;
+use Wikimedia\Slimapp\Auth\AuthManager;
 use Wikimedia\Slimapp\Config;
+use Wikimedia\Slimapp\Form;
 use Wikimedia\Slimapp\Mailer;
 use Wikimedia\Slimapp\ParsoidClient;
 use Wikimedia\Slimapp\TwigExtension;
@@ -47,6 +51,17 @@ class App extends AbstractApp {
 				"{$this->deployDir}/data/cache"
 			),
 			'es.url' => Config::getStr( 'ES_URL', 'http://127.0.0.1:9200/' ),
+			'es.user' => Config::getStr( 'ES_USER', '' ),
+			'es.password' => Config::getStr( 'ES_PASSWORD', '' ),
+			'can.edit' => Config::getBool( 'CAN_EDIT', false ),
+			'can.vote' => Config::getBool( 'CAN_VOTE', false ),
+			'oauth.enable' => Config::getBool( 'USE_OAUTH', false ),
+			'oauth.consumer_token' => Config::getStr( 'OAUTH_CONSUMER_TOKEN', '' ),
+			'oauth.secret_token' => Config::getStr( 'OAUTH_SECRET_TOKEN', '' ),
+			'oauth.endpoint' => Config::getStr( 'OAUTH_ENDPOINT', '' ),
+			'oauth.redir' => Config::getStr( 'OAUTH_REDIR', '' ),
+			'oauth.callback' => Config::getStr( 'OAUTH_CALLBACK', '' ),
+
 		) );
 
 		$slim->configureMode( 'production', function () use ( $slim ) {
@@ -112,12 +127,54 @@ class App extends AbstractApp {
 		} );
 
 		$container->singleton( 'quips', function ( $c ) {
-			return new Quips(
-				new \Elastica\Client( array(
-					'url' => $c->settings['es.url'],
-				) ),
+			$settings = array(
+				'url' => $c->settings['es.url'],
+				'log' => true,
+			);
+			if ( $c->settings['es.user'] !== '' ) {
+				$creds = base64_encode(
+					$c->settings['es.user'] . ':' .
+					$c->settings['es.password']
+				);
+				$settings['headers'] = array(
+					'Authorization' => "Basic {$creds}",
+				);
+			}
+			$client = new \Elastica\Client( $settings );
+			$client->setLogger( $c->log );
+			return new Quips( $client, $c->log );
+		} );
+
+		$container->singleton( 'oauthConfig', function ( $c ) {
+			$conf = new \Wikimedia\Slimapp\OAuth\ClientConfig(
+				$c->settings['oauth.endpoint']
+			);
+			$conf->setRedirURL( $c->settings['oauth.redir'] );
+			$conf->setConsumer( new \Wikimedia\Slimapp\OAuth\Consumer(
+				$c->settings['oauth.consumer_token'],
+				$c->settings['oauth.secret_token']
+			) );
+			return $conf;
+		} );
+
+		$container->singleton( 'oauthClient', function ( $c ) {
+			$client = new \Wikimedia\Slimapp\OAuth\Client(
+				$c->oauthConfig,
 				$c->log
 			);
+			$client->setCallback( $c->settings['oauth.callback'] );
+			return $client;
+		} );
+
+		$container->singleton( 'userManager', function ( $c ) {
+			return new OAuthUserManager(
+				$c->oauthClient,
+				$c->log
+			);
+		} );
+
+		$container->singleton( 'authManager', function ( $c ) {
+			return new AuthManager( $c->userManager );
 		} );
 
 		// TODO: figure out where to send logs
@@ -161,8 +218,43 @@ class App extends AbstractApp {
 	 * @param \Slim\Slim $slim Application
 	 */
 	protected function configureRoutes( \Slim\Slim $slim ) {
+		$middleware = array(
+			'must-revalidate' => function () use ( $slim ) {
+				$slim->response->headers->set(
+					'Cache-Control', 'private, must-revalidate, max-age=0'
+				);
+				$slim->response->headers->set(
+					'Expires', 'Thu, 01 Jan 1970 00:00:00 GMT'
+				);
+			},
+
+			'inject-user' => function () use ( $slim ) {
+				$user = $slim->authManager->getUserData();
+				$slim->view->set( 'user', $user );
+			},
+
+			'require-user' => function () use ( $slim ) {
+				if ( $slim->authManager->isAnonymous() ) {
+					if ( $slim->request->isGet() ) {
+						$uri = $slim->request->getUrl() .
+							$slim->request->getPath();
+						$qs = Form::qsMerge();
+						if ( $qs ) {
+							$uri = "{$uri}?{$qs}";
+						}
+						$_SESSION[AuthManager::NEXTPAGE_SESSION_KEY] = $uri;
+					}
+					// FIXME: use i18n
+					$slim->flash( 'error', 'Login required' );
+					$slim->flashKeep();
+					$slim->redirect( $slim->urlFor( 'login' ) );
+				}
+			},
+		);
+
 		$slim->group( '/',
-			function () use ( $slim ) {
+			$middleware['inject-user'],
+			function () use ( $slim, $middleware ) {
 				App::redirect( $slim, '', 'random', 'home' );
 				App::redirect( $slim, 'index', 'random' );
 
@@ -173,13 +265,6 @@ class App extends AbstractApp {
 					$page();
 				} )->name( 'random' );
 
-				$slim->get( 'quip/:id', function ( $id ) use ( $slim ) {
-					$page = new Pages\Quip( $slim );
-					$page->setI18nContext( $slim->i18nContext );
-					$page->setQuips( $slim->quips );
-					$page( $id );
-				} )->name( 'quip' );
-
 				$slim->get( 'search', function () use ( $slim ) {
 					$page = new Pages\Search( $slim );
 					$page->setI18nContext( $slim->i18nContext );
@@ -187,9 +272,97 @@ class App extends AbstractApp {
 					$page();
 				} )->name( 'search' );
 
+				$slim->get( 'top', function () use ( $slim ) {
+					$page = new Pages\Top( $slim );
+					$page->setI18nContext( $slim->i18nContext );
+					$page->setQuips( $slim->quips );
+					$page();
+				} )->name( 'top' );
+
+				App::template( $slim, 'login' );
+
+				$slim->get( 'logout',
+					$middleware['must-revalidate'],
+					function () use ( $slim ) {
+						$slim->authManager->logout();
+						$slim->redirect( $slim->urlFor( 'home' ) );
+					}
+				)->name( 'logout' );
+
 				App::template( $slim, 'about' );
+				App::template( $slim, 'help' );
 			}
 		); //end group '/'
+
+		$slim->group( '/quip/',
+			$middleware['inject-user'],
+			function () use ( $slim, $middleware ) {
+				$slim->get( ':id', function ( $id ) use ( $slim ) {
+					$page = new Pages\Quip( $slim );
+					$page->setI18nContext( $slim->i18nContext );
+					$page->setQuips( $slim->quips );
+					$page( $id );
+				} )->name( 'quip' );
+
+				$slim->get( ':id/edit',
+					$middleware['require-user'],
+					function ( $id ) use ( $slim ) {
+						$page = new Pages\Edit( $slim );
+						$page->setI18nContext( $slim->i18nContext );
+						$page->setQuips( $slim->quips );
+						$page( $id );
+					}
+				)->name( 'edit' );
+
+				$slim->post( ':id/post',
+					$middleware['require-user'],
+					function ( $id ) use ( $slim ) {
+						$page = new Pages\Edit( $slim );
+						$page->setI18nContext( $slim->i18nContext );
+						$page->setQuips( $slim->quips );
+						$page( $id );
+					}
+				)->name( 'edit_post' );
+
+				$slim->post( ':id/delete',
+					$middleware['require-user'],
+					function ( $id ) use ( $slim ) {
+						$page = new Pages\Delete( $slim );
+						$page->setI18nContext( $slim->i18nContext );
+						$page->setQuips( $slim->quips );
+						$page( $id );
+					}
+				)->name( 'delete_post' );
+
+				$slim->post( ':id/vote',
+					$middleware['require-user'],
+					function ( $id ) use ( $slim ) {
+						$page = new Pages\Vote( $slim );
+						$page->setI18nContext( $slim->i18nContext );
+						$page->setQuips( $slim->quips );
+						$page( $id );
+					}
+				)->name( 'vote_post' );
+			}
+		);
+
+		$slim->group( '/oauth/',
+			function () use ( $slim ) {
+				$slim->get( '', function () use ( $slim ) {
+					$page = new Pages\OAuth( $slim );
+					$page->setOAuth( $slim->oauthClient );
+					$page( 'init' );
+				} )->name( 'oauth_init' );
+
+				$slim->get( 'callback', function () use ( $slim ) {
+					$page = new Pages\OAuth( $slim );
+					$page->setI18nContext( $slim->i18nContext );
+					$page->setOAuth( $slim->oauthClient );
+					$page->setUserManager( $slim->userManager );
+					$page( 'callback' );
+				} )->name( 'oauth_callback' );
+			}
+		);
 
 		$slim->notFound( function () use ( $slim ) {
 			$slim->render( '404.html' );

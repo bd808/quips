@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'nav-help'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<article>
+  <h2>{{ 'help-header'|message }}</h2>
+
+  <section id="search">
+    <h3>{{ 'help-section-search'|message }}</h3>
+    <p>The <a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a> screen uses the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-simple-query-string-query.html">Elasticsearch simple query string syntax</a>:</p>
+    <ul class="square">
+      <li><kbd>+</kbd> signifies AND operation</li>
+      <li><kbd>|</kbd> signifies OR operation</li>
+      <li><kbd>-</kbd> negates a single token</li>
+      <li><kbd>"</kbd> wraps a number of tokens to signify a phrase for searching</li>
+      <li><kbd>*</kbd> at the end of a term signifies a prefix query</li>
+      <li><kbd>(</kbd> and <kbd>)</kbd> signify precedence</li>
+      <li><kbd>~N</kbd> after a word signifies edit distance (fuzziness)</li>
+      <li><kbd>~N</kbd> after a phrase signifies slop amount</li>
+      <li>Special characters (<kbd>+</kbd>, <kbd>|</kbd>, <kbd>-</kbd>, <kbd>"</kbd>, <kbd>*</kbd>, <kbd>(</kbd>, <kbd>)</kbd>, <kbd>~</kbd>) must be escaped wth <kbd>\</kbd> or in a quoted phrase to be searched for.</li>
+      <li>Searches are case insensitive.</li>
+    </ul>
+    <p>Examples:</p>
+    <ul class="square">
+      <li><a href="{{ urlFor('search') }}?q=Tim%20TimStarling"><kbd>Tim TimStarling</kbd></a>: quips containing "Tim" or "TimStarling"</li>
+      <li><a href="{{ urlFor('search') }}?q=%22browser%20cache%22"><kbd>"browser cache"</kbd></a>: quips containing the phrase "browser cache"</li>
+      <li><a href="{{ urlFor('search') }}?q=bd808%20%2B-(reedy|ori)"><kbd>bd808 +-(reedy|ori)</kbd></a>: quips containing "bd808" and not "reedy" or "ori"</li>
+      <li><a href="{{ urlFor('search') }}?q=%2Bdomas%20%2Breedy"><kbd>+domas +reedy</kbd></a>: quips containing "domas" and "reedy"</li>
+    </ul>
+  </section>
+
+  <section id="vote">
+    <h3>{{ 'help-section-voting'|message }}</h3>
+    <p>Authenticated users can vote for their favorite quips. The "<a href="{{ urlFor('top') }}">{{ 'nav-top'|message }}</a>" page shows quips ordered by their current vote score. Behind the scenes we use a <a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html">scoring function</a> that tries to avoid small sample bias.<sup><a href="http://www.redditblog.com/2009/10/reddits-new-comment-sorting-system.html">[1]</a></sup></p>
+    <ol>
+      <li>Login using OAuth with <a href="https://www.mediawiki.org/wiki/MediaWiki">mediawiki.org</a> using the "<a href="{{ urlFor('login') }}">{{ 'nav-login'|message }}</a>" link in the navigation bar.</li>
+      <li>Click the "{{ 'quips-vote-up'|message }}" or "{{ 'quips-vote-down'|message }}" links to register your vote.
+        <ul>
+          <li>Score changes are not immediately reflected in the current page.</li>
+          <li>Voting requires javscript support in your browser.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section id="add">
+    <h3>{{ 'help-section-addquips'|message }}</h3>
+    <section id="add-irc">
+      <h4>Adding quips via IRC</h4>
+      <ol>
+        <li>Look for a <a href="https://freenode.net/">freenode</a> channel that <kbd>stashbot</kbd> is in. Try <kbd>/whois stashbot</kbd> to find one or check in <kbd>##stashbot</kbd>.</li>
+        <li>Type the quip proceded by <kbd>!bash</kbd> (eg <kbd>!bash &lt;bd808&gt; I wasted my whole weekend reading quips.</kbd>)
+          <ul>
+            <li>If you want a multiline quip, use tabs where the newlines should go. You may need to write the quip in a text editor and paste it into your IRC client to do this.</li>
+          </ul>
+        </li>
+        <li>The bot will not ack your submission, but it should show up in <a href="{{ urlFor('search') }}">{{ 'nav-search'|message }}</a> within a minute or so.</li>
+      </ol>
+    </section>
+
+    <section id="add-web">
+      <h4>Adding quips via web</h4>
+      <ol>
+        <li>Login using OAuth with <a href="https://www.mediawiki.org/wiki/MediaWiki">mediawiki.org</a> using the "<a href="{{ urlFor('login') }}">{{ 'nav-login'|message }}</a>" link in the navigation bar.</li>
+        <li>Click the "{{ 'nav-new'|message }}" link in the navigation bar that becomes visible once you are logged in.</li>
+        <li>Enter your quip in the form provided and hit the "{{ 'edit-submit'|message }}" button.</li>
+      </ol>
+    </section>
+  </section>
+</article>
+{% endspaceless %}
+{% endblock content %}

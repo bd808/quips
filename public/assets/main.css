@@ -1,5 +1,5 @@
 /* http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126 License:none (public domain) */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin:0; padding:0; border:0; font-size:100%; font:inherit; vertical-align:baseline; }
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, input, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, textarea, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin:0; padding:0; border:0; font-size:100%; font:inherit; vertical-align:baseline; }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block; }
 body { line-height:1; }
 ol, ul { list-style:none; }
@@ -23,10 +23,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:500;
   line-height:1.1em;
   padding:.5em 0;
+  position:relative;
 }
 h1 { font-size:3em; }
 h2 { font-size:2em; border-bottom:1px solid #ccc; }
 h3 { font-size:1.5em; }
+h4 { font-size:1.2em; color:#666; }
 
 p {
   padding:.5em 0;
@@ -45,6 +47,20 @@ kbd {
   padding:0 .2em;
 }
 
+/* https://gist.github.com/unruthless/413930 */
+sub, sup {
+  font-size:75%;
+  line-height:0;
+  position:relative;
+  vertical-align:baseline;
+}
+sup {
+  top:-0.5em;
+}
+sub {
+  bottom:-0.25em;
+}
+
 ol {
   list-style-type:decimal;
   padding:.5em 0;
@@ -57,23 +73,23 @@ ol ul {
   padding-left:1em;
 }
 
-form div {
-  display:inline-block;
-  vertical-align:middle;
+ul.square {
+  list-style-type:square;
+  padding:.5em 0;
+  padding-left:3em;
 }
+
 form label {
-  display:inline-block;
   font-weight:700;
-  padding-bottom:5px;
   max-width:100%;
 }
-form input {
+form input,
+form textarea {
   background-color:#fff;
   background-image:none;
   border:1px solid #ccc;
   box-shadow:0 1px 1px rgba(0,0,0,0.075) inset;
   color:#555;
-  display:inline-block;
   font-family:inherit;
   line-height:1.42857;
   padding:.1em .2em;
@@ -87,7 +103,6 @@ form button {
   border:1px solid #ccc;
   color:#333;
   cursor:pointer;
-  display:inline-block;
   font-family:inherit;
   font-weight:400;
   line-height:1.42857;
@@ -96,6 +111,22 @@ form button {
   text-align:center;
   vertical-align:middle;
   white-space:nowrap;
+}
+
+form.inline div {
+  display:inline-block;
+  vertical-align:middle;
+}
+form.inline label {
+  display:inline-block;
+  padding-bottom:5px;
+}
+form.inline input,
+form.inline textarea {
+  display:inline-block;
+}
+form.inline button {
+  display:inline-block;
 }
 
 a { color:#268bd2; }
@@ -107,6 +138,7 @@ a:hover { color:#d33682; }
   position:fixed;
   top:0px;
   width:100%;
+  z-index:10;
 }
 #logo {
   height:22px;
@@ -147,6 +179,9 @@ a:hover { color:#d33682; }
   color:#fff;
   text-decoration:underline;
 }
+.navbar-right {
+  float:right;
+}
 body > .container {
   height:auto;
   min-height:100%;
@@ -173,6 +208,16 @@ body > .container {
   font-family:monospace;
   white-space:pre-wrap;
 }
+.ballot, .vote {
+  display:inline-block;
+}
+.vote {
+  cursor:pointer;
+}
+.voted {
+  cursor:default;
+  color:#cb4b16;
+}
 #search-form {
   float:left;
 }
@@ -192,6 +237,14 @@ body > .container {
   text-decoration:underline;
   color:inherit;
 }
+#edit-form textarea {
+  font-family:monospace;
+  height:8em;
+  width:90%;
+}
+#delete-form {
+  margin:-1.6em 0 0 5em;
+}
 .footer {
   background:#ccc;
   border-top:1px solid #333;
@@ -202,6 +255,41 @@ body > .container {
   padding-right:1em;
   position:relative;
   text-align:right;
+}
+
+input[type=checkbox].close {
+  display:none;
+}
+input[type=checkbox].close:checked + div {
+  display:none;
+}
+.alert {
+  border:1px solid transparent;
+  border-radius:.25em;
+  margin-bottom:1em;
+  padding:0.75em;
+}
+.alert label {
+  cursor:pointer;
+  float:right;
+  font-size:1.25em;
+  font-weight:700;
+  line-height:1;
+  opacity:0.2;
+  text-shadow:0 1px 0 #fff;
+}
+.alert label:hover {
+  opacity:1;
+}
+.alert-error {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+.alert-info {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
 }
 
 .text-small {
@@ -216,4 +304,29 @@ body > .container {
   padding:0;
   position:absolute;
   width:1px;
+}
+
+h3 span, h4 span {
+  display:block;
+  position:absolute;
+}
+h3 a, h4 a {
+  color:#ccc;
+  font-weight:300;
+  opacity:0;
+  text-decoration:none;
+  display:block;
+  text-align:right;
+  position:relative;
+  z-index:1;
+}
+h3 a:visited, h4 a:visited {
+  color:#ccc;
+}
+h3 a:hover, h4 a:hover {
+  color:#ccc;
+  opacity:1;
+}
+:target {
+  background-color:#f8f8ff;
 }

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'nav-login'|message }} - {{ parent() }}{% endblock title %}
+
+{% block content %}
+{% spaceless %}
+<h2>{{ 'login-header'|message }}</h2>
+
+<form action="{{ urlFor('oauth_init') }}" method="get">
+  <div>
+    <button type="submit">{{ 'login-submit'|message }}</button>
+  </div>
+</form>
+{% endspaceless %}
+{% endblock content %}
