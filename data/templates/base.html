@@ -24,17 +24,18 @@
           <li><a href="{{ urlFor('edit', { id: 'new' }) }}">{{ 'nav-new'|message }}</a></li>
           {% endif %}
         </ul>
-        {% if app.settings['oauth.enable'] %}
         <div class="navbar-right">
           <ul class="nav">
+            <li><a href="{{ urlFor('help') }}">{{ 'nav-help'|message }}</a></li>
+            {% if app.settings['oauth.enable'] %}
             {% if user|default(false) %}
             <li><a href="{{ urlFor('logout') }}">{{ 'nav-logout'|message }}</a></li>
             {% else %}
             <li><a href="{{ urlFor('login') }}">{{ 'nav-login'|message }}</a></li>
             {% endif %}
+            {% endif %}
           </ul>
         </div>
-        {% endif %}
       </nav>
     </header>
 

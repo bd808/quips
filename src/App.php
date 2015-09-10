@@ -290,6 +290,7 @@ class App extends AbstractApp {
 				)->name( 'logout' );
 
 				App::template( $slim, 'about' );
+				App::template( $slim, 'help' );
 			}
 		); //end group '/'
 

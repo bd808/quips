@@ -23,4 +23,15 @@
             });
         }
     );
+
+    Array.prototype.filter.call(
+        document.querySelectorAll('section'),
+        function(section) {
+            var id = section.id,
+                header = section.querySelectorAll('h3, h4')[0],
+                text = header.innerHTML;
+            header.innerHTML = '<span>' + text + '</span>' +
+                    '<a href="#' + id + '">#' + id + '</a>';
+        }
+    );
 })(document, window, console);
