@@ -91,6 +91,7 @@ form textarea {
   box-shadow:0 1px 1px rgba(0,0,0,0.075) inset;
   color:#555;
   font-family:inherit;
+  font-size:1em;
   line-height:1.42857;
   padding:.1em .2em;
   vertical-align:middle;
@@ -104,6 +105,7 @@ form button {
   color:#333;
   cursor:pointer;
   font-family:inherit;
+  font-size:1em;
   font-weight:400;
   line-height:1.42857;
   overflow:visible;
