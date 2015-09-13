@@ -1,8 +1,25 @@
 (function (document, window, console) {
     "use strict";
+    var storage = (function(){
+      try {
+        var s = window.localStorage,
+            x = '__test__';
+        s.setItem(x, x);
+        s.removeItem(x);
+        return s;
+      } catch(e) {
+        return false;
+      }
+    })();
+
     Array.prototype.filter.call(
         document.getElementsByClassName('vote'),
         function(elm) {
+            var key = elm.getAttribute('data-url'),
+                voted = storage ? storage.getItem(key) : false;
+            if (voted & elm.getAttribute('data-vote') === voted) {
+                elm.className += ' voted';
+            }
             elm.addEventListener('click', function() {
                 var classes = ' ' + this.className + ' ';
                 if (classes.indexOf(' voted ') > -1) {
@@ -19,9 +36,9 @@
                 r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 r.send('vote=' + vote + '&csrf_token=' + token);
                 this.className += ' voted';
-                console.log( url + ':' + vote );
+                storage.setItem(url, vote);
             });
-            elm.style.display = "initial";
+            elm.style.display = 'initial';
         }
     );
 
