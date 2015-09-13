@@ -21,6 +21,7 @@
                 this.className += ' voted';
                 console.log( url + ':' + vote );
             });
+            elm.style.display = "initial";
         }
     );
 

@@ -215,6 +215,7 @@ body > .container {
 }
 .vote {
   cursor:pointer;
+  display:none;
 }
 .voted {
   cursor:default;
