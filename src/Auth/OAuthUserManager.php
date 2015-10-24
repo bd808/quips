@@ -22,8 +22,8 @@ namespace Bd808\Bash\Auth;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Slimapp\Auth\UserManager;
-use Wikimedia\Slimapp\OAuth\Client;
-use Wikimedia\Slimapp\OAuth\Token;
+use MediaWiki\OAuthClient\Client;
+use MediaWiki\OAuthClient\Token;
 
 /**
  * @author Bryan Davis <bd808@wikimedia.org>

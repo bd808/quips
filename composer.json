@@ -4,10 +4,11 @@
   "homepage": "https://tools.wmflabs.org/bash/",
   "require": {
     "bd808/monolog-udp2log-handler": "~1.0",
-    "monolog/monolog": "~1.15",
     "guzzlehttp/guzzle": "~6.0",
-    "wikimedia/slimapp": "dev-master",
-    "ruflin/elastica": "~2.2"
+    "mediawiki/oauthclient": "~0.1",
+    "monolog/monolog": "~1.15",
+    "ruflin/elastica": "~2.2",
+    "wikimedia/slimapp": "dev-master"
   },
   "autoload": {
     "psr-4": {

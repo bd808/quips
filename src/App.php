@@ -146,11 +146,11 @@ class App extends AbstractApp {
 		} );
 
 		$container->singleton( 'oauthConfig', function ( $c ) {
-			$conf = new \Wikimedia\Slimapp\OAuth\ClientConfig(
+			$conf = new \MediaWiki\OAuthClient\ClientConfig(
 				$c->settings['oauth.endpoint']
 			);
 			$conf->setRedirURL( $c->settings['oauth.redir'] );
-			$conf->setConsumer( new \Wikimedia\Slimapp\OAuth\Consumer(
+			$conf->setConsumer( new \MediaWiki\OAuthClient\Consumer(
 				$c->settings['oauth.consumer_token'],
 				$c->settings['oauth.secret_token']
 			) );
@@ -158,7 +158,7 @@ class App extends AbstractApp {
 		} );
 
 		$container->singleton( 'oauthClient', function ( $c ) {
-			$client = new \Wikimedia\Slimapp\OAuth\Client(
+			$client = new \MediaWiki\OAuthClient\Client(
 				$c->oauthConfig,
 				$c->log
 			);

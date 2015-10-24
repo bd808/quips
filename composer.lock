@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "58ed3649ea1498687db90b0dc9e91590",
+    "hash": "a8efbb71467b8cfb3e0091e4a943a968",
+    "content-hash": "dea86c62ca41960eb1b8f563846c41b0",
     "packages": [
         {
             "name": "bd808/monolog-udp2log-handler",
@@ -224,6 +225,56 @@
                 "uri"
             ],
             "time": "2015-08-15 19:32:36"
+        },
+        {
+            "name": "mediawiki/oauthclient",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wikimedia/mediawiki-oauthclient-php.git",
+                "reference": "6682e35d8e466810b7f18e2814b69aa6158ba072"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wikimedia/mediawiki-oauthclient-php/zipball/6682e35d8e466810b7f18e2814b69aa6158ba072",
+                "reference": "6682e35d8e466810b7f18e2814b69aa6158ba072",
+                "shasum": ""
+            },
+            "require": {
+                "psr/log": "1.0.*"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "~0.9",
+                "mediawiki/mediawiki-codesniffer": "0.5.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MediaWiki\\OAuthClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Bryan Davis",
+                    "email": "bd808@wikimedia.org"
+                },
+                {
+                    "name": "Andy Smith",
+                    "homepage": "http://termie.pbworks.com/w/page/20571888/AndySmith"
+                },
+                {
+                    "name": "Chris Steipp",
+                    "email": "csteipp@wikimedia.org"
+                }
+            ],
+            "description": "PHP OAuth client for use with Wikipedia and other MediaWiki-based wikis running the OAuth extension",
+            "homepage": "https://www.mediawiki.org/wiki/oauthclient-php",
+            "time": "2015-10-23 23:16:26"
         },
         {
             "name": "monolog/monolog",
@@ -719,7 +770,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wikimedia/wikimedia-slimapp/zipball/e54ab8975b854fdda3d728bfa6c523231c381c1f",
+                "url": "https://api.github.com/repos/wikimedia/wikimedia-slimapp/zipball/119df97f97938c15cab0c3b6c52696451a0cba54",
                 "reference": "e54ab8975b854fdda3d728bfa6c523231c381c1f",
                 "shasum": ""
             },

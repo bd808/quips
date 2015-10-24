@@ -20,7 +20,7 @@
 namespace Bd808\Bash\Auth;
 
 use Wikimedia\Slimapp\Auth\UserData;
-use Wikimedia\Slimapp\OAuth\Token;
+use MediaWiki\OAuthClient\Token;
 
 /**
  * @author Bryan Davis <bd808@wikimedia.org>

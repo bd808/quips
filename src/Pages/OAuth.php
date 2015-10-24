@@ -23,8 +23,8 @@ use Bd808\Bash\Auth\OAuthUserManager;
 use Bd808\Bash\Page;
 
 use Wikimedia\Slimapp\Auth\AuthManager;
-use Wikimedia\Slimapp\OAuth\Client;
-use Wikimedia\Slimapp\OAuth\Token;
+use MediaWiki\OAuthClient\Client;
+use MediaWiki\OAuthClient\Token;
 
 /**
  * @author Bryan Davis <bd808@wikimedia.org>
