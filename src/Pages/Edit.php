@@ -28,7 +28,7 @@ use Elastica\Result;
  * @copyright © 2015 Bryan Davis and contributors.
  */
 class Edit extends Page {
-	protected function setupForm ( $defaults = array() ) {
+	protected function setupForm( $defaults = array() ) {
 		$defaults = array_merge( array(
 			'@timestamp' => date( 'c' ),
 			'nick' => 'anonymous',

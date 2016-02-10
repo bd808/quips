@@ -31,9 +31,9 @@ class Page extends Controller {
 	 */
 	protected $quips;
 
-  /**
-   * @param Quips $quips
-   */
+	/**
+	* @param Quips $quips
+	*/
 	public function setQuips( Quips $quips ) {
 		$this->quips = $quips;
 	}

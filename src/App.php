@@ -292,7 +292,7 @@ class App extends AbstractApp {
 				App::template( $slim, 'about' );
 				App::template( $slim, 'help' );
 			}
-		); //end group '/'
+		); // end group '/'
 
 		$slim->group( '/quip/',
 			$middleware['inject-user'],
@@ -367,5 +367,5 @@ class App extends AbstractApp {
 		$slim->notFound( function () use ( $slim ) {
 			$slim->render( '404.html' );
 		} );
-	} //end configureRoutes
+	} // end configureRoutes
 }
