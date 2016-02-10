@@ -15,6 +15,19 @@
       "Bd808\\Bash\\": "src/"
     }
   },
+  "require-dev": {
+    "jakub-onderka/php-parallel-lint": "~0.9",
+    "mediawiki/mediawiki-codesniffer": "~0.3"
+  },
+  "scripts": {
+    "test": [
+      "parallel-lint . --exclude vendor",
+      "phpcs --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --ignore=vendor --extensions=php -v src public"
+    ],
+    "phpcbf": [
+      "phpcbf --standard=vendor/mediawiki/mediawiki-codesniffer/MediaWiki --ignore=vendor --extensions=php -v src public"
+    ]
+  },
   "config": {
     "autoloader-suffix": "_bd808_bash",
     "optimize-autoloader": true,
