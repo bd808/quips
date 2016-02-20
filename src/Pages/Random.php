@@ -26,8 +26,21 @@ use Bd808\Bash\Page;
  * @copyright © 2015 Bryan Davis and contributors.
  */
 class Random extends Page {
+	/**
+	 * @var string $template
+	 */
+	protected $template = 'random.html';
+
+	/**
+	 * Set the twig template to use.
+	 * @param string $template
+	 */
+	public function setTemplate( $template ) {
+		$this->template = $template;
+	}
+
 	protected function handleGet() {
 		$this->view->set( 'results', $this->quips->getRandom() );
-		$this->render( 'random.html' );
+		$this->render( $this->template );
 	}
 }

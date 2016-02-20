@@ -265,6 +265,18 @@ class App extends AbstractApp {
 					$page();
 				} )->name( 'random' );
 
+				$slim->get( 'random.json', function () use ( $slim ) {
+					$slim->response->headers->set(
+						'Content-Type',
+						'application/json'
+					);
+					$page = new Pages\Random( $slim );
+					$page->setI18nContext( $slim->i18nContext );
+					$page->setQuips( $slim->quips );
+					$page->setTemplate( 'random.json' );
+					$page();
+				} )->name( 'random.json' );
+
 				$slim->get( 'search', function () use ( $slim ) {
 					$page = new Pages\Search( $slim );
 					$page->setI18nContext( $slim->i18nContext );
