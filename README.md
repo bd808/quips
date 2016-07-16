@@ -15,13 +15,11 @@ Wikimedia Tool Labs
 -------------------
 
 This service is currently running in [Wikimedia Tool Labs][] as the [bash][]
-tool. It uses an Elasticsearch server hosted in the [stashbot][] project of
-[Wikimedia Labs][]. The stashbot project uses a [Logstash][] server and its
-[irc input plugin][] to collect messages from various IRC channels. The
-Logstash instance uses some custom rules to look for messages in the IRC
-channels that start with `!bash` and adds them to a special Elasticsearch
-index. That same index was bootstrapped with a [list of quips][] that were
-salvaged from the former bugzilla.wikimedia.org server.
+tool. It uses an [Elasticsearch][] index maintained by [stashbot][] and hosted
+in Tool Labs. Stashbot collects messages from various IRC channels and looks
+for messages that start with `!bash`. The index was bootstrapped with a
+[list of quips][] that were salvaged from the former bugzilla.wikimedia.org
+server.
 
 
 Credits
@@ -42,8 +40,5 @@ License
 [Elasticsearch]: https://www.elastic.co/products/elasticsearch
 [Wikimedia Tool Labs]: https://wikitech.wikimedia.org/wiki/Help:Tool_Labs
 [bash]: https://tools.wmflabs.org/bash
-[stashbot]: https://wikitech.wikimedia.org/wiki/Nova_Resource:Stashbot
-[Wikimedia Labs]: https://wikitech.wikimedia.org/wiki/Help:FAQ
-[Logstash]: https://www.elastic.co/products/logstash
-[irc input plugin]: https://www.elastic.co/guide/en/logstash/current/plugins-inputs-irc.html
+[stashbot]: https://github.com/bd808/tools-stashbot
 [list of quips]: https://phabricator.wikimedia.org/P110

@@ -17,7 +17,9 @@
 
   <section id="toollabs">
     <h3>{{ 'about-section-toollabs'|message }}</h3>
-    <p>This service is currently running in <a href="https://wikitech.wikimedia.org/wiki/Help:Tool_Labs">Wikimedia Tool Labs</a> as the <a href="https://tools.wmflabs.org/bash">bash</a> tool. It uses an <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> server hosted in the <a href="https://wikitech.wikimedia.org/wiki/Nova_Resource:Stashbot">stashbot</a> project of <a href="https://wikitech.wikimedia.org/wiki/Help:FAQ">Wikimedia Labs</a>. The stashbot project uses a <a href="https://www.elastic.co/products/logstash">Logstash</a> server and its <a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-irc.html">irc input plugin</a> to collect messages from various IRC channels. The Logstash instance uses some custom rules to look for messages in the IRC channels that start with <kbd>!bash</kbd> and adds them to a special Elasticsearch index. That same index was bootstrapped with a <a href="https://phabricator.wikimedia.org/P110">list of quips</a> that were salvaged from the former bugzilla.wikimedia.org server.</p>
+    <p>This service is currently running in <a href="https://wikitech.wikimedia.org/wiki/Help:Tool_Labs">Wikimedia Tool Labs</a> as the <a href="https://tools.wmflabs.org/bash"bash</a> tool. It uses an <a href="https://www.elastic.co/products/elasticsearch">Elasticsearch</a> index maintained by <a href="https://github.com/bd808/tools-stashbot">stashbot</a> and hosted in
+Tool Labs. Stashbot collects messages from various IRC channels and looks for
+messages that start with <kbd>!bash</kbd>. The index was bootstrapped with a <a href="https://phabricator.wikimedia.org/P110">list of quips</a> that were salvaged from the former bugzilla.wikimedia.org server.</p>
   </section>
 
   <section id="credits">
