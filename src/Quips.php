@@ -66,22 +66,6 @@ class Quips {
 	}
 
 	/**
-	 * Fields to fetch from the index.
-	 */
-	protected function defaultFields() {
-		return array(
-			'id',
-			'@timestamp',
-			'nick',
-			'message',
-			'up_votes',
-			'down_votes',
-			'score',
-			'tags',
-		);
-	}
-
-	/**
 	 * Get a random quip
 	 *
 	 * @return ResultSet
@@ -91,8 +75,7 @@ class Quips {
 		$fs->setRandomScore();
 		$query = new Query( $fs );
 		$query->setFrom( 0 )
-			->setSize( 1 )
-			->setFields( $this->defaultFields() );
+			->setSize( 1 );
 		return $this->doSearch( $query );
 	}
 
@@ -107,8 +90,7 @@ class Quips {
 		$ids->setIds( $id );
 		$query = new Query( $ids );
 		$query->setFrom( 0 )
-			->setSize( 1 )
-			->setFields( $this->defaultFields() );
+			->setSize( 1 );
 		return $this->doSearch( $query );
 	}
 
@@ -121,26 +103,25 @@ class Quips {
 	 *   - page: Page of results to return (0-index)
 	 * @return ResultSet
 	 */
-	public function search( array $params = array() ) {
-		$params = array_merge( array(
+	public function search( array $params = [] ) {
+		$params = array_merge( [
 			'query' => null,
 			'items' => 20,
 			'page' => 0,
-		), $params );
+		], $params );
 
 		if ( $params['query'] !== null ) {
-			$qs = new SimpleQueryString( $params['query'], array( 'message' ) );
+			$qs = new SimpleQueryString( $params['query'], [ 'message' ] );
 			$query = new Query( $qs );
 		} else {
 			$query = new Query();
 		}
 		$query->setFrom( $params['page'] * $params['items'] )
 			->setSize( $params['items'] )
-			->setFields( $this->defaultFields() )
-			->setSort( array(
+			->setSort( [
 				'_score',
-				array( '@timestamp' => array( 'order' => 'desc' ) ),
-			) );
+				[ '@timestamp' => [ 'order' => 'desc' ] ],
+			] );
 		return $this->doSearch( $query );
 	}
 
@@ -152,25 +133,24 @@ class Quips {
 	 *   - page: Page of results to return (0-index)
 	 * @return ResultSet
 	 */
-	public function top( array $params = array() ) {
-		$params = array_merge( array(
+	public function top( array $params = [] ) {
+		$params = array_merge( [
 			'items' => 20,
 			'page' => 0,
-		), $params );
+		], $params );
 
 		$query = new Query();
 		$query->setFrom( $params['page'] * $params['items'] )
 			->setSize( $params['items'] )
-			->setFields( $this->defaultFields() )
-			->setSort( array(
-				array( 'score' => array(
+			->setSort( [
+				[ 'score' => [
 					'order' => 'desc',
 					'missing' => '_last',
-				) ),
-				array( 'up_votes' => array( 'order' => 'desc' ) ),
-				array( 'down_votes' => array( 'order' => 'asc' ) ),
-				array( '@timestamp' => array( 'order' => 'desc' ) ),
-			) );
+				] ],
+				[ 'up_votes' => [ 'order' => 'desc' ] ],
+				[ 'down_votes' => [ 'order' => 'asc' ] ],
+				[ '@timestamp' => [ 'order' => 'desc' ] ],
+			] );
 		return $this->doSearch( $query );
 	}
 
@@ -182,15 +162,15 @@ class Quips {
 	 * @return string|bool Quip id or false if failure
 	 */
 	public function save( $id, array $quip ) {
-		$quip = array_merge( array(
+		$quip = array_merge( [
 			'@timestamp' => date( 'c' ),
 			'nick' => 'anonymous',
 			'message' => '(this space left intentionally blank)',
 			'up_votes' => 0,
 			'down_votes' => 0,
 			'score' => 0,
-			'tags' => array(),
-		), $quip );
+			'tags' => [],
+		], $quip );
 
 		$quip['score'] = static::computeScore(
 			(int)$quip['up_votes'], (int)$quip['down_votes']
@@ -211,11 +191,11 @@ class Quips {
 			return $data['_id'];
 
 		} else {
-			$this->logger->error( 'Failure saving {id}: {error}', array(
+			$this->logger->error( 'Failure saving {id}: {error}', [
 				'id' => $id,
 				'error' => $res->getError(),
 				'transferInfo' => $res->getTransferInfo(),
-			) );
+			] );
 			return false;
 		}
 	}
@@ -241,10 +221,10 @@ class Quips {
 	 * @return bool
 	 */
 	public function vote( $id, $vote ) {
-		$quip = array_merge( array(
+		$quip = array_merge( [
 			'up_votes' => 0,
 			'down_votes' => 0,
-		), $this->getQuip( $id )[0]->getData() );
+		], $this->getQuip( $id )[0]->getData() );
 
 		if ( $vote === 'up' ) {
 			$quip['up_votes'] = 1 + (int)$quip['up_votes'];

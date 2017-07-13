@@ -28,17 +28,17 @@ use Bd808\Bash\Page;
 class Top extends Page {
 	protected function handleGet() {
 		$this->form->expectInt( 'p',
-			array( 'min_range' => 0, 'default' => 0 )
+			[ 'min_range' => 0, 'default' => 0 ]
 		);
 		$this->form->expectInt( 'i',
-			array( 'min_range' => 1, 'max_range' => 200, 'default' => 20 )
+			[ 'min_range' => 1, 'max_range' => 200, 'default' => 20 ]
 		);
 		$this->form->validate( $_GET );
 
-		$params = array(
+		$params = [
 			'page' => $this->form->get( 'p' ),
 			'items' => $this->form->get( 'i' ),
-		);
+		];
 		$ret = $this->quips->top( $params );
 		list( $pageCount, $first, $last ) = $this->pagination(
 			$ret->getTotalHits(), $params['page'], $params['items'] );

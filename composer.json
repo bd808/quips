@@ -4,10 +4,10 @@
   "homepage": "https://tools.wmflabs.org/bash/",
   "require": {
     "bd808/monolog-udp2log-handler": "~1.0",
-    "guzzlehttp/guzzle": "~6.0",
-    "mediawiki/oauthclient": "~0.1",
-    "monolog/monolog": "~1.15",
-    "ruflin/elastica": "~2.2",
+    "guzzlehttp/guzzle": "^6.0",
+    "mediawiki/oauthclient": "^0.1",
+    "monolog/monolog": "^1.15",
+    "ruflin/elastica": "^5.2.1",
     "wikimedia/slimapp": "dev-master"
   },
   "autoload": {
@@ -17,7 +17,7 @@
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "~0.9",
-    "mediawiki/mediawiki-codesniffer": "~0.3"
+    "mediawiki/mediawiki-codesniffer": "0.10"
   },
   "scripts": {
     "test": [

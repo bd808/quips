@@ -28,50 +28,50 @@ use Elastica\Result;
  * @copyright © 2015 Bryan Davis and contributors.
  */
 class Edit extends Page {
-	protected function setupForm( $defaults = array() ) {
-		$defaults = array_merge( array(
+	protected function setupForm( $defaults = [] ) {
+		$defaults = array_merge( [
 			'@timestamp' => date( 'c' ),
 			'nick' => 'anonymous',
 			'message' => null,
 			'up_votes' => 0,
 			'down_votes' => 0,
 			'score' => 0,
-			'tags' => array(),
-		), $defaults );
+			'tags' => [],
+		], $defaults );
 
-		$this->form->expectString( '@timestamp', array(
+		$this->form->expectString( '@timestamp', [
 			'default' => $defaults['@timestamp'],
-		) );
-		$this->form->expectString( 'nick', array(
+		] );
+		$this->form->expectString( 'nick', [
 			'default' => $defaults['nick'],
-		) );
-		$this->form->requireString( 'message', array(
+		] );
+		$this->form->requireString( 'message', [
 			'default' => $defaults['message'],
-		) );
-		$this->form->expectInt( 'up_votes', array(
+		] );
+		$this->form->expectInt( 'up_votes', [
 			'min' => 0,
 			'default' => $defaults['up_votes'],
-		) );
-		$this->form->expectInt( 'down_votes', array(
+		] );
+		$this->form->expectInt( 'down_votes', [
 			'min' => 0,
 			'default' => $defaults['down_votes'],
-		) );
-		$this->form->expectInt( 'score', array(
+		] );
+		$this->form->expectInt( 'score', [
 			'min' => 0,
 			'default' => $defaults['score'],
-		) );
-		$this->form->expectStringArray( 'tags', array(
+		] );
+		$this->form->expectStringArray( 'tags', [
 			'default' => $defaults['tags'],
-		) );
+		] );
 
 		$this->view->set( 'form', $this->form );
 	}
 
 	protected function handleGet( $id ) {
-		$defaults = array();
+		$defaults = [];
 		if ( $id === 'new' ) {
 			$defaults['nick'] = $this->authManager->getUserData()->getName();
-			$defaults['tags'] = array( 'web' );
+			$defaults['tags'] = [ 'web' ];
 		} else {
 			$defaults = array_map(
 				function ( $v ) {
@@ -91,10 +91,10 @@ class Edit extends Page {
 
 	protected function handlePost( $id ) {
 		$this->setupForm();
-		$redir = $this->urlFor( 'edit', array( 'id' => $id ) );
+		$redir = $this->urlFor( 'edit', [ 'id' => $id ] );
 
 		if ( $this->form->validate() ) {
-			$id = $this->quips->save( $id, array(
+			$id = $this->quips->save( $id, [
 				'@timestamp' => $this->form->get( '@timestamp' ),
 				'nick' => $this->form->get( 'nick' ),
 				'message' => $this->form->get( 'message' ),
@@ -102,11 +102,11 @@ class Edit extends Page {
 				'down_votes' => $this->form->get( 'down_votes' ),
 				'score' => $this->form->get( 'score' ),
 				'tags' => $this->form->get( 'tags' ),
-			) );
+			] );
 
 			if ( $id !== false ) {
 				$this->flash( 'info', $this->msg( 'quips-edit-save' )->toString() );
-				$redir = $this->urlFor( 'quip', array( 'id' => $id ) );
+				$redir = $this->urlFor( 'quip', [ 'id' => $id ] );
 
 			} else {
 				$this->flash( 'error', $this->msg( 'quips-edit-save-error' )->toString() );

@@ -1,7 +1,7 @@
 {% spaceless %}
 {{ {
     'id': results[0].id,
-    'quote': results[0].fields['message'][0]
+    'quote': results[0].fields['message']
    } | json_encode | raw
 }}
 {% endspaceless %}

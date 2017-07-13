@@ -96,7 +96,7 @@ class OAuth extends Page {
 		$token = new Token( $key, $secret );
 
 		$this->form->requireString( 'oauth_verifier' );
-		$this->form->requireInArray( 'oauth_token', array( $key ) );
+		$this->form->requireInArray( 'oauth_token', [ $key ] );
 
 		if ( $this->form->validate( $_GET ) ) {
 			$verifyCode = $this->form->get( 'oauth_verifier' );
@@ -112,9 +112,9 @@ class OAuth extends Page {
 				$this->flash( 'error',
 					$this->msg( 'oauth-finish-fail' )->toString()
 				);
-				$this->log->error( 'Failed login attempt', array(
+				$this->log->error( 'Failed login attempt', [
 					'exception' => $e
-				) );
+				] );
 			}
 			$this->redirect( $next ?: $this->urlFor( 'home' ) );
 

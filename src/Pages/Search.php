@@ -29,18 +29,18 @@ class Search extends Page {
 	protected function handleGet() {
 		$this->form->expectString( 'q' );
 		$this->form->expectInt( 'p',
-			array( 'min_range' => 0, 'default' => 0 )
+			[ 'min_range' => 0, 'default' => 0 ]
 		);
 		$this->form->expectInt( 'i',
-			array( 'min_range' => 1, 'max_range' => 200, 'default' => 20 )
+			[ 'min_range' => 1, 'max_range' => 200, 'default' => 20 ]
 		);
 		$this->form->validate( $_GET );
 
-		$params = array(
+		$params = [
 			'query' => $this->form->get( 'q' ),
 			'page' => $this->form->get( 'p' ),
 			'items' => $this->form->get( 'i' ),
-		);
+		];
 		$ret = $this->quips->search( $params );
 		list( $pageCount, $first, $last ) = $this->pagination(
 			$ret->getTotalHits(), $params['page'], $params['items'] );

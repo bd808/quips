@@ -43,7 +43,7 @@ class App extends AbstractApp {
 	 * @param \Slim\Slim $slim Application
 	 */
 	protected function configureSlim( \Slim\Slim $slim ) {
-		$slim->config( array(
+		$slim->config( [
 			'parsoid.url' => Config::getStr( 'PARSOID_URL',
 				'http://parsoid-lb.eqiad.wikimedia.org/enwiki/'
 			),
@@ -62,36 +62,35 @@ class App extends AbstractApp {
 			'oauth.redir' => Config::getStr( 'OAUTH_REDIR', '' ),
 			'oauth.callback' => Config::getStr( 'OAUTH_CALLBACK', '' ),
 
-		) );
+		] );
 
 		$slim->configureMode( 'production', function () use ( $slim ) {
-			$slim->config( array(
+			$slim->config( [
 				'debug' => false,
 				'log.level' => Config::getStr( 'LOG_LEVEL', 'INFO' ),
-			) );
+			] );
 
 			// Install a custom error handler
 			$slim->error( function ( \Exception $e ) use ( $slim ) {
 				$errorId = substr( session_id(), 0, 8 ) . '-' .
 					substr( uniqid(), -8 );
-				$slim->log->critical( $e->getMessage(), array(
+				$slim->log->critical( $e->getMessage(), [
 					'exception' => $e,
 					'errorId' => $errorId,
-				) );
+				] );
 				$slim->view->set( 'errorId', $errorId );
 				$slim->render( 'error.html' );
 			} );
 		} );
 
 		$slim->configureMode( 'development', function () use ( $slim ) {
-			$slim->config( array(
+			$slim->config( [
 				'debug' => true,
 				'log.level' => Config::getStr( 'LOG_LEVEL', 'DEBUG' ),
 				'view.cache' => false,
-			) );
+			] );
 		} );
 	}
-
 
 	/**
 	 * Configure inversion of control/dependency injection container.
@@ -113,7 +112,7 @@ class App extends AbstractApp {
 
 		$container->singleton( 'mailer',  function ( $c ) {
 			return new Mailer(
-				array( 'Host' => $c->settings['smtp.host'] ),
+				[ 'Host' => $c->settings['smtp.host'] ],
 				$c->log
 			);
 		} );
@@ -127,18 +126,18 @@ class App extends AbstractApp {
 		} );
 
 		$container->singleton( 'quips', function ( $c ) {
-			$settings = array(
+			$settings = [
 				'url' => $c->settings['es.url'],
 				'log' => true,
-			);
+			];
 			if ( $c->settings['es.user'] !== '' ) {
 				$creds = base64_encode(
 					$c->settings['es.user'] . ':' .
 					$c->settings['es.password']
 				);
-				$settings['headers'] = array(
+				$settings['headers'] = [
 					'Authorization' => "Basic {$creds}",
-				);
+				];
 			}
 			$client = new \Elastica\Client( $settings );
 			$client->setLogger( $c->log );
@@ -180,37 +179,35 @@ class App extends AbstractApp {
 		// TODO: figure out where to send logs
 	}
 
-
 	/**
 	 * Configure view behavior.
 	 *
 	 * @param \Slim\View $view Default view
 	 */
 	protected function configureView( \Slim\View $view ) {
-		$view->parserOptions = array(
+		$view->parserOptions = [
 			'charset' => 'utf-8',
 			'cache' => $this->slim->config( 'view.cache' ),
 			'debug' => $this->slim->config( 'debug' ),
 			'auto_reload' => true,
 			'strict_variables' => false,
 			'autoescape' => true,
-		);
+		];
 
 		// Install twig parser extensions
-		$view->parserExtensions = array(
+		$view->parserExtensions = [
 			new \Slim\Views\TwigExtension(),
 			new TwigExtension( $this->slim->parsoid ),
 			new \Wikimedia\SimpleI18n\TwigExtension( $this->slim->i18nContext ),
 			new \Twig_Extension_Debug(),
-		);
+		];
 
 		// Set default view data
-		$view->replace( array(
+		$view->replace( [
 			'app' => $this->slim,
 			'i18nCtx' => $this->slim->i18nContext,
-		) );
+		] );
 	}
-
 
 	/**
 	 * Configure routes to be handled by application.
@@ -218,7 +215,7 @@ class App extends AbstractApp {
 	 * @param \Slim\Slim $slim Application
 	 */
 	protected function configureRoutes( \Slim\Slim $slim ) {
-		$middleware = array(
+		$middleware = [
 			'must-revalidate' => function () use ( $slim ) {
 				$slim->response->headers->set(
 					'Cache-Control', 'private, must-revalidate, max-age=0'
@@ -250,7 +247,7 @@ class App extends AbstractApp {
 					$slim->redirect( $slim->urlFor( 'login' ) );
 				}
 			},
-		);
+		];
 
 		$slim->group( '/',
 			$middleware['inject-user'],

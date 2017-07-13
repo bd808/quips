@@ -35,7 +35,7 @@ class Delete extends Page {
 			$this->flash( 'error',
 				$this->msg( 'quips-delete-error' )->toString()
 			);
-			$redir = $this->urlFor( 'edit', array( 'id' => $id ) );
+			$redir = $this->urlFor( 'edit', [ 'id' => $id ] );
 
 		} else {
 			$this->flash( 'info',
