@@ -1,6 +1,10 @@
 {% set id = quote.getId() %}
 <div class="quote">
+  {% if quote.message is iterable %}
+  <p>{{ quote.message[0] }}</p>
+  {% else %}
   <p>{{ quote.message }}</p>
+  {% endif %}
   <ul class="nav text-small">
     {% if user|default(false) and app.settings['can.vote'] %}
     <li>
