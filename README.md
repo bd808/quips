@@ -11,12 +11,12 @@ masses by allowing access to the former quips dataset that is now stored in an
 [Elasticsearch][] index.
 
 
-Wikimedia Tool Labs
+Wikimedia Toolforge
 -------------------
 
-This service is currently running in [Wikimedia Tool Labs][] as the [bash][]
+This service is currently running in [Wikimedia Toolforge][] as the [bash][]
 tool. It uses an [Elasticsearch][] index maintained by [stashbot][] and hosted
-in Tool Labs. Stashbot collects messages from various IRC channels and looks
+in Toolforge. Stashbot collects messages from various IRC channels and looks
 for messages that start with `!bash`. The index was bootstrapped with a
 [list of quips][] that were salvaged from the former bugzilla.wikimedia.org
 server.
@@ -38,7 +38,7 @@ License
 [Phabricator]: http://phabricator.org/
 [T73245]: https://phabricator.wikimedia.org/T73245
 [Elasticsearch]: https://www.elastic.co/products/elasticsearch
-[Wikimedia Tool Labs]: https://wikitech.wikimedia.org/wiki/Help:Tool_Labs
+[Wikimedia Toolforge]: https://wikitech.wikimedia.org/wiki/Help:Toolforge
 [bash]: https://tools.wmflabs.org/bash
 [stashbot]: https://github.com/bd808/tools-stashbot
 [list of quips]: https://phabricator.wikimedia.org/P110

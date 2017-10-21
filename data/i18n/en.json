@@ -9,7 +9,7 @@
 	"about-header": "About quips",
 	"about-section-credits": "Credits",
 	"about-section-license": "License",
-	"about-section-toollabs": "Wikimedia Tool Labs",
+	"about-section-toolforge": "Wikimedia Toolforge",
 	"csrf-heading": "Invalid request",
 	"csrf-message": "The request that was submitted was missing the request forgery protection token. Please return to the form, reload the page and try again.",
 	"delete-submit": "delete",

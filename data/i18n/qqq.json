@@ -9,7 +9,7 @@
 	"about-header": "About page heading",
 	"about-section-credits": "About page credits section header",
 	"about-section-license": "About page license section header",
-	"about-section-toollabs": "About page tool labs section header",
+	"about-section-toolforge": "About page toolforge section header",
 	"csrf-heading": "Header for cross site request forgery (CSRF) error page",
 	"csrf-message": "Cross site request forgery (CSRF) error page body",
 	"delete-submit": "Text for form submit button",
