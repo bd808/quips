@@ -27,6 +27,11 @@ use Bd808\Bash\Page;
  */
 class Vote extends Page {
 
+	/**
+	 * Handle POST requests.
+	 *
+	 * @param string $id Quip Id
+	 */
 	protected function handlePost( $id ) {
 		$this->form->requireInArray( 'vote', [ 'up', 'down' ] );
 		if ( $this->form->validate() ) {

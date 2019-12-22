@@ -25,7 +25,6 @@ use Elastica\Query;
 use Elastica\Query\FunctionScore;
 use Elastica\Query\Ids;
 use Elastica\Query\SimpleQueryString;
-use Elastica\Result;
 use Elastica\ResultSet;
 use Elastica\Search;
 use Psr\Log\LoggerInterface;
@@ -45,6 +44,12 @@ class Quips {
 	 */
 	protected $logger;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Client $client
+	 * @param LoggerInterface|null $logger
+	 */
 	public function __construct(
 		Client $client, LoggerInterface $logger = null
 	) {

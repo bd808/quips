@@ -27,6 +27,11 @@ use Bd808\Bash\Page;
  */
 class Delete extends Page {
 
+	/**
+	 * Handle POST requests.
+	 *
+	 * @param string $id Quip Id
+	 */
 	protected function handlePost( $id ) {
 		$redir = $this->urlFor( 'home' );
 		$ok = $this->quips->delete( $id );

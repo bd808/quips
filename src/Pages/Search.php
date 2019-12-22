@@ -34,7 +34,7 @@ class Search extends Page {
 		$this->form->expectInt( 'i',
 			[ 'min_range' => 1, 'max_range' => 200, 'default' => 20 ]
 		);
-		$this->form->validate( $_GET );
+		$this->form->validate( filter_input( INPUT_GET ) );
 
 		$params = [
 			'query' => $this->form->get( 'q' ),

@@ -32,7 +32,7 @@ use MediaWiki\OAuthClient\Token;
  */
 class OAuth extends Page {
 
-	const REQEST_KEY = 'oauthreqtoken';
+	public const REQEST_KEY = 'oauthreqtoken';
 
 	/**
 	 * @var Client $oauth
@@ -44,14 +44,29 @@ class OAuth extends Page {
 	 */
 	protected $manager;
 
+	/**
+	 * Set OAuth client.
+	 *
+	 * @param Client $oauth
+	 */
 	public function setOAuth( Client $oauth ) {
 		$this->oauth = $oauth;
 	}
 
+	/**
+	 * Set user manager object.
+	 *
+	 * @param OAuthUserManager $manager
+	 */
 	public function setUserManager( OAuthUserManager $manager ) {
 		$this->manager = $manager;
 	}
 
+	/**
+	 * Handle GET requests.
+	 *
+	 * @param string $stage
+	 */
 	protected function handleGet( $stage ) {
 		switch ( $stage ) {
 			case 'callback':
@@ -98,7 +113,7 @@ class OAuth extends Page {
 		$this->form->requireString( 'oauth_verifier' );
 		$this->form->requireInArray( 'oauth_token', [ $key ] );
 
-		if ( $this->form->validate( $_GET ) ) {
+		if ( $this->form->validate( filter_input_array( INPUT_GET ) ) ) {
 			$verifyCode = $this->form->get( 'oauth_verifier' );
 			try {
 				$accessToken = $this->oauth->complete( $token, $verifyCode );
