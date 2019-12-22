@@ -26,6 +26,12 @@ use Bd808\Bash\Page;
  * @copyright © 2015 Bryan Davis and contributors.
  */
 class Quip extends Page {
+
+	/**
+	 * Handle GET requests.
+	 *
+	 * @param string $id Quip id
+	 */
 	protected function handleGet( $id ) {
 		$this->view->set( 'results', $this->quips->getQuip( $id ) );
 		$this->render( 'quip.html' );

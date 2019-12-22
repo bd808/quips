@@ -42,8 +42,8 @@ class OAuthUserManager implements LoggerAwareInterface, UserManager {
 	protected $oauth;
 
 	/**
-	 * @param Client $oauth
-	 * @param LoggerInterface $logger
+	 * @param Client|null $client
+	 * @param LoggerInterface|null $logger
 	 */
 	public function __construct(
 		Client $client = null,

@@ -21,13 +21,17 @@ namespace Bd808\Bash\Pages;
 
 use Bd808\Bash\Page;
 
-use Elastica\Result;
-
 /**
  * @author Bryan Davis <bd808@wikimedia.org>
  * @copyright © 2015 Bryan Davis and contributors.
  */
 class Edit extends Page {
+
+	/**
+	 * Setup input form.
+	 *
+	 * @param array $defaults
+	 */
 	protected function setupForm( $defaults = [] ) {
 		$defaults = array_merge( [
 			'@timestamp' => date( 'c' ),
@@ -67,6 +71,11 @@ class Edit extends Page {
 		$this->view->set( 'form', $this->form );
 	}
 
+	/**
+	 * Handle GET requests.
+	 *
+	 * @param string $id Quip Id
+	 */
 	protected function handleGet( $id ) {
 		$defaults = [];
 		if ( $id === 'new' ) {
@@ -89,6 +98,11 @@ class Edit extends Page {
 		$this->render( 'quip/edit.html' );
 	}
 
+	/**
+	 * Handle POST requests.
+	 *
+	 * @param string $id Quip Id
+	 */
 	protected function handlePost( $id ) {
 		$this->setupForm();
 		$redir = $this->urlFor( 'edit', [ 'id' => $id ] );

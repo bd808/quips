@@ -38,6 +38,12 @@ class OAuthUser implements UserData {
 	 */
 	protected $attributes;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Token $token
+	 * @param object $attributes
+	 */
 	public function __construct( Token $token, $attributes ) {
 		$this->token = $token;
 		$this->attributes = $attributes;
@@ -51,6 +57,10 @@ class OAuthUser implements UserData {
 		return $this->attributes->sub;
 	}
 
+	/**
+	 * Get username
+	 * @return string
+	 */
 	public function getName() {
 		return $this->attributes->username;
 	}
