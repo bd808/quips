@@ -1,7 +1,8 @@
 {
   "name": "bd808/bash",
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://tools.wmflabs.org/bash/",
+  "description": "A bash.org inspired quips server powered by Elasticsearch",
   "require": {
     "bd808/monolog-udp2log-handler": "~1.0",
     "guzzlehttp/guzzle": "^6.0",
