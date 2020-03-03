@@ -4,12 +4,10 @@
   "homepage": "https://tools.wmflabs.org/bash/",
   "description": "A bash.org inspired quips server powered by Elasticsearch",
   "require": {
-    "bd808/monolog-udp2log-handler": "~1.0",
     "guzzlehttp/guzzle": "^6.0",
-    "mediawiki/oauthclient": "^0.1",
-    "monolog/monolog": "^1.15",
+    "mediawiki/oauthclient": "^1.1.0",
     "php": ">=7.3.0",
-    "ruflin/elastica": "^5.2.1",
+    "ruflin/elastica": "^6.1.1",
     "wikimedia/slimapp": "dev-master"
   },
   "autoload": {

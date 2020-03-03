@@ -65,7 +65,7 @@ class Quips {
 	 */
 	protected function doSearch( Query $q ) {
 		$search = new Search( $this->client );
-		$search->addIndex( 'bash' )->addType( 'bash' );
+		$search->addIndex( 'bash' );
 		$search->setQuery( $q );
 		return $search->search();
 	}
@@ -187,7 +187,6 @@ class Quips {
 
 		$doc = new Document( $id, $quip );
 		$res = $this->client->getIndex( 'bash' )
-			->getType( 'bash' )
 			->addDocument( $doc );
 
 		if ( $res->isOk() ) {
@@ -213,7 +212,6 @@ class Quips {
 	 */
 	public function delete( $id ) {
 		$res = $this->client->getIndex( 'bash' )
-			->getType( 'bash' )
 			->deleteById( $id );
 		return $res->isOk();
 	}
