@@ -187,11 +187,11 @@ class Quips {
 
 		$doc = new Document( $id, $quip );
 		$res = $this->client->getIndex( 'bash' )
-			->addDocument( $doc );
+			->addDocuments( [ $doc ] );
 
 		if ( $res->isOk() ) {
-			$data = $res->getData();
 			$this->client->getIndex( 'bash' )->refresh();
+			$data = $res->getBulkResponses()[0]->getData();
 			return $data['_id'];
 
 		} else {
