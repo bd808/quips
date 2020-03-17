@@ -7,7 +7,7 @@
     "guzzlehttp/guzzle": "^6.0",
     "mediawiki/oauthclient": "^1.1.0",
     "php": ">=7.3.0",
-    "ruflin/elastica": "^6.1.1",
+    "ruflin/elastica": "^7.0-beta",
     "wikimedia/slimapp": "dev-master"
   },
   "autoload": {
