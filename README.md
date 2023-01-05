@@ -39,6 +39,6 @@ License
 [T73245]: https://phabricator.wikimedia.org/T73245
 [Elasticsearch]: https://www.elastic.co/products/elasticsearch
 [Wikimedia Toolforge]: https://wikitech.wikimedia.org/wiki/Help:Toolforge
-[bash]: https://tools.wmflabs.org/bash
+[bash]: https://bash.toolforge.org/
 [stashbot]: https://github.com/bd808/tools-stashbot
 [list of quips]: https://phabricator.wikimedia.org/P110
