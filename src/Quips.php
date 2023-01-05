@@ -35,12 +35,12 @@ use Psr\Log\LoggerInterface;
  */
 class Quips {
 	/**
-	 * @var Client $client
+	 * @var Client
 	 */
 	protected $client;
 
 	/**
-	 * @var LoggerInterface $logger
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 

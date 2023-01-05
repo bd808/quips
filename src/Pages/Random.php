@@ -27,7 +27,7 @@ use Bd808\Bash\Page;
  */
 class Random extends Page {
 	/**
-	 * @var string $template
+	 * @var string
 	 */
 	protected $template = 'random.html';
 

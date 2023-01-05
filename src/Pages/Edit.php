@@ -83,7 +83,7 @@ class Edit extends Page {
 			$defaults['tags'] = [ 'web' ];
 		} else {
 			$defaults = array_map(
-				function ( $v ) {
+				static function ( $v ) {
 					if ( is_array( $v ) && count( $v ) === 1 ) {
 						return $v[0];
 					}

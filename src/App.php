@@ -20,7 +20,6 @@
 namespace Bd808\Bash;
 
 use Bd808\Bash\Auth\OAuthUserManager;
-
 use Wikimedia\SimpleI18n\I18nContext;
 use Wikimedia\SimpleI18n\JsonCache;
 use Wikimedia\Slimapp\AbstractApp;
@@ -64,14 +63,14 @@ class App extends AbstractApp {
 
 		] );
 
-		$slim->configureMode( 'production', function () use ( $slim ) {
+		$slim->configureMode( 'production', static function () use ( $slim ) {
 			$slim->config( [
 				'debug' => false,
 				'log.level' => Config::getStr( 'LOG_LEVEL', 'INFO' ),
 			] );
 
 			// Install a custom error handler
-			$slim->error( function ( \Exception $e ) use ( $slim ) {
+			$slim->error( static function ( \Exception $e ) use ( $slim ) {
 				$errorId = substr( session_id(), 0, 8 ) . '-' .
 					substr( uniqid(), -8 );
 				$slim->log->critical( $e->getMessage(), [
@@ -83,7 +82,7 @@ class App extends AbstractApp {
 			} );
 		} );
 
-		$slim->configureMode( 'development', function () use ( $slim ) {
+		$slim->configureMode( 'development', static function () use ( $slim ) {
 			$slim->config( [
 				'debug' => true,
 				'log.level' => Config::getStr( 'LOG_LEVEL', 'DEBUG' ),
@@ -98,26 +97,26 @@ class App extends AbstractApp {
 	 * @param \Slim\Helper\Set $container IOC container
 	 */
 	protected function configureIoc( \Slim\Helper\Set $container ) {
-		$container->singleton( 'i18nCache', function ( $c ) {
+		$container->singleton( 'i18nCache', static function ( $c ) {
 			return new JsonCache(
 				$c->settings['i18n.path'], $c->log
 			);
 		} );
 
-		$container->singleton( 'i18nContext', function ( $c ) {
+		$container->singleton( 'i18nContext', static function ( $c ) {
 			return new I18nContext(
 				$c->i18nCache, $c->settings['i18n.default'], $c->log
 			);
 		} );
 
-		$container->singleton( 'mailer',  function ( $c ) {
+		$container->singleton( 'mailer',  static function ( $c ) {
 			return new Mailer(
 				[ 'Host' => $c->settings['smtp.host'] ],
 				$c->log
 			);
 		} );
 
-		$container->singleton( 'parsoid', function ( $c ) {
+		$container->singleton( 'parsoid', static function ( $c ) {
 			return new ParsoidClient(
 				$c->settings['parsoid.url'],
 				$c->settings['parsoid.cache'],
@@ -125,7 +124,7 @@ class App extends AbstractApp {
 			);
 		} );
 
-		$container->singleton( 'quips', function ( $c ) {
+		$container->singleton( 'quips', static function ( $c ) {
 			$settings = [
 				'url' => $c->settings['es.url'],
 				'log' => true,
@@ -144,7 +143,7 @@ class App extends AbstractApp {
 			return new Quips( $client, $c->log );
 		} );
 
-		$container->singleton( 'oauthConfig', function ( $c ) {
+		$container->singleton( 'oauthConfig', static function ( $c ) {
 			$conf = new \MediaWiki\OAuthClient\ClientConfig(
 				$c->settings['oauth.endpoint']
 			);
@@ -156,7 +155,7 @@ class App extends AbstractApp {
 			return $conf;
 		} );
 
-		$container->singleton( 'oauthClient', function ( $c ) {
+		$container->singleton( 'oauthClient', static function ( $c ) {
 			$client = new \MediaWiki\OAuthClient\Client(
 				$c->oauthConfig,
 				$c->log
@@ -165,14 +164,14 @@ class App extends AbstractApp {
 			return $client;
 		} );
 
-		$container->singleton( 'userManager', function ( $c ) {
+		$container->singleton( 'userManager', static function ( $c ) {
 			return new OAuthUserManager(
 				$c->oauthClient,
 				$c->log
 			);
 		} );
 
-		$container->singleton( 'authManager', function ( $c ) {
+		$container->singleton( 'authManager', static function ( $c ) {
 			return new AuthManager( $c->userManager );
 		} );
 
@@ -216,7 +215,7 @@ class App extends AbstractApp {
 	 */
 	protected function configureRoutes( \Slim\Slim $slim ) {
 		$middleware = [
-			'must-revalidate' => function () use ( $slim ) {
+			'must-revalidate' => static function () use ( $slim ) {
 				$slim->response->headers->set(
 					'Cache-Control', 'private, must-revalidate, max-age=0'
 				);
@@ -225,12 +224,12 @@ class App extends AbstractApp {
 				);
 			},
 
-			'inject-user' => function () use ( $slim ) {
+			'inject-user' => static function () use ( $slim ) {
 				$user = $slim->authManager->getUserData();
 				$slim->view->set( 'user', $user );
 			},
 
-			'require-user' => function () use ( $slim ) {
+			'require-user' => static function () use ( $slim ) {
 				if ( $slim->authManager->isAnonymous() ) {
 					if ( $slim->request->isGet() ) {
 						$uri = $slim->request->getUrl() .
@@ -251,18 +250,18 @@ class App extends AbstractApp {
 
 		$slim->group( '/',
 			$middleware['inject-user'],
-			function () use ( $slim, $middleware ) {
+			static function () use ( $slim, $middleware ) {
 				App::redirect( $slim, '', 'random', 'home' );
 				App::redirect( $slim, 'index', 'random' );
 
-				$slim->get( 'random', function () use ( $slim ) {
+				$slim->get( 'random', static function () use ( $slim ) {
 					$page = new Pages\Random( $slim );
 					$page->setI18nContext( $slim->i18nContext );
 					$page->setQuips( $slim->quips );
 					$page();
 				} )->name( 'random' );
 
-				$slim->get( 'random.json', function () use ( $slim ) {
+				$slim->get( 'random.json', static function () use ( $slim ) {
 					$slim->response->headers->set(
 						'Content-Type',
 						'application/json'
@@ -274,14 +273,14 @@ class App extends AbstractApp {
 					$page();
 				} )->name( 'random.json' );
 
-				$slim->get( 'search', function () use ( $slim ) {
+				$slim->get( 'search', static function () use ( $slim ) {
 					$page = new Pages\Search( $slim );
 					$page->setI18nContext( $slim->i18nContext );
 					$page->setQuips( $slim->quips );
 					$page();
 				} )->name( 'search' );
 
-				$slim->get( 'top', function () use ( $slim ) {
+				$slim->get( 'top', static function () use ( $slim ) {
 					$page = new Pages\Top( $slim );
 					$page->setI18nContext( $slim->i18nContext );
 					$page->setQuips( $slim->quips );
@@ -292,7 +291,7 @@ class App extends AbstractApp {
 
 				$slim->get( 'logout',
 					$middleware['must-revalidate'],
-					function () use ( $slim ) {
+					static function () use ( $slim ) {
 						$slim->authManager->logout();
 						$slim->redirect( $slim->urlFor( 'home' ) );
 					}
@@ -305,8 +304,8 @@ class App extends AbstractApp {
 
 		$slim->group( '/quip/',
 			$middleware['inject-user'],
-			function () use ( $slim, $middleware ) {
-				$slim->get( ':id', function ( $id ) use ( $slim ) {
+			static function () use ( $slim, $middleware ) {
+				$slim->get( ':id', static function ( $id ) use ( $slim ) {
 					$page = new Pages\Quip( $slim );
 					$page->setI18nContext( $slim->i18nContext );
 					$page->setQuips( $slim->quips );
@@ -315,7 +314,7 @@ class App extends AbstractApp {
 
 				$slim->get( ':id/edit',
 					$middleware['require-user'],
-					function ( $id ) use ( $slim ) {
+					static function ( $id ) use ( $slim ) {
 						$page = new Pages\Edit( $slim );
 						$page->setI18nContext( $slim->i18nContext );
 						$page->setQuips( $slim->quips );
@@ -325,7 +324,7 @@ class App extends AbstractApp {
 
 				$slim->post( ':id/post',
 					$middleware['require-user'],
-					function ( $id ) use ( $slim ) {
+					static function ( $id ) use ( $slim ) {
 						$page = new Pages\Edit( $slim );
 						$page->setI18nContext( $slim->i18nContext );
 						$page->setQuips( $slim->quips );
@@ -335,7 +334,7 @@ class App extends AbstractApp {
 
 				$slim->post( ':id/delete',
 					$middleware['require-user'],
-					function ( $id ) use ( $slim ) {
+					static function ( $id ) use ( $slim ) {
 						$page = new Pages\Delete( $slim );
 						$page->setI18nContext( $slim->i18nContext );
 						$page->setQuips( $slim->quips );
@@ -345,7 +344,7 @@ class App extends AbstractApp {
 
 				$slim->post( ':id/vote',
 					$middleware['require-user'],
-					function ( $id ) use ( $slim ) {
+					static function ( $id ) use ( $slim ) {
 						$page = new Pages\Vote( $slim );
 						$page->setI18nContext( $slim->i18nContext );
 						$page->setQuips( $slim->quips );
@@ -356,14 +355,14 @@ class App extends AbstractApp {
 		);
 
 		$slim->group( '/oauth/',
-			function () use ( $slim ) {
-				$slim->get( '', function () use ( $slim ) {
+			static function () use ( $slim ) {
+				$slim->get( '', static function () use ( $slim ) {
 					$page = new Pages\OAuth( $slim );
 					$page->setOAuth( $slim->oauthClient );
 					$page( 'init' );
 				} )->name( 'oauth_init' );
 
-				$slim->get( 'callback', function () use ( $slim ) {
+				$slim->get( 'callback', static function () use ( $slim ) {
 					$page = new Pages\OAuth( $slim );
 					$page->setI18nContext( $slim->i18nContext );
 					$page->setOAuth( $slim->oauthClient );
@@ -373,7 +372,7 @@ class App extends AbstractApp {
 			}
 		);
 
-		$slim->notFound( function () use ( $slim ) {
+		$slim->notFound( static function () use ( $slim ) {
 			$slim->render( '404.html' );
 		} );
 	}
