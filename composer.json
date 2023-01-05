@@ -6,8 +6,8 @@
   "require": {
     "guzzlehttp/guzzle": "^6.0",
     "mediawiki/oauthclient": "^1.1.0",
-    "php": ">=7.3.0",
-    "ruflin/elastica": "^7.0-beta",
+    "php": ">=7.4.0",
+    "ruflin/elastica": "^7.3.0",
     "wikimedia/slimapp": "dev-master"
   },
   "autoload": {
@@ -16,8 +16,8 @@
     }
   },
   "require-dev": {
-    "jakub-onderka/php-parallel-lint": "~0.9",
-    "mediawiki/mediawiki-codesniffer": "28.0.0"
+    "php-parallel-lint/php-parallel-lint": "^1.3.2",
+    "mediawiki/mediawiki-codesniffer": "40.0.1"
   },
   "scripts": {
     "test": [

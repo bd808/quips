@@ -19,8 +19,8 @@
 
 namespace Bd808\Bash\Auth;
 
-use Wikimedia\Slimapp\Auth\UserData;
 use MediaWiki\OAuthClient\Token;
+use Wikimedia\Slimapp\Auth\UserData;
 
 /**
  * @author Bryan Davis <bd808@wikimedia.org>
@@ -29,12 +29,12 @@ use MediaWiki\OAuthClient\Token;
 class OAuthUser implements UserData {
 
 	/**
-	 * @var Token $token
+	 * @var Token
 	 */
 	protected $token;
 
 	/**
-	 * @var object $attributes
+	 * @var stdClass
 	 */
 	protected $attributes;
 
@@ -42,7 +42,7 @@ class OAuthUser implements UserData {
 	 * Constructor.
 	 *
 	 * @param Token $token
-	 * @param object $attributes
+	 * @param stdClass $attributes
 	 */
 	public function __construct( Token $token, $attributes ) {
 		$this->token = $token;

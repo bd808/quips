@@ -19,11 +19,11 @@
 
 namespace Bd808\Bash\Auth;
 
+use MediaWiki\OAuthClient\Client;
+use MediaWiki\OAuthClient\Token;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Wikimedia\Slimapp\Auth\UserManager;
-use MediaWiki\OAuthClient\Client;
-use MediaWiki\OAuthClient\Token;
 
 /**
  * @author Bryan Davis <bd808@wikimedia.org>
@@ -32,12 +32,12 @@ use MediaWiki\OAuthClient\Token;
 class OAuthUserManager implements LoggerAwareInterface, UserManager {
 
 	/**
-	 * @var LoggerInterface $logger
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
 	/**
-	 * @var Client $oauth
+	 * @var Client
 	 */
 	protected $oauth;
 

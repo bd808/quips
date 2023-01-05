@@ -21,10 +21,9 @@ namespace Bd808\Bash\Pages;
 
 use Bd808\Bash\Auth\OAuthUserManager;
 use Bd808\Bash\Page;
-
-use Wikimedia\Slimapp\Auth\AuthManager;
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\Token;
+use Wikimedia\Slimapp\Auth\AuthManager;
 
 /**
  * @author Bryan Davis <bd808@wikimedia.org>
@@ -35,12 +34,12 @@ class OAuth extends Page {
 	public const REQEST_KEY = 'oauthreqtoken';
 
 	/**
-	 * @var Client $oauth
+	 * @var Client
 	 */
 	protected $oauth;
 
 	/**
-	 * @var OAuthUserManager $manager
+	 * @var OAuthUserManager
 	 */
 	protected $manager;
 
