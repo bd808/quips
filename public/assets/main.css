@@ -39,11 +39,15 @@ pre {
   white-space:pre;
 }
 
-kbd {
+kbd, samp {
   font-family:monospace;
   font-weight:500;
   background:#eee;
   padding:0 .2em;
+}
+
+var {
+  font-style:italic;
 }
 
 /* https://gist.github.com/unruthless/413930 */
